@@ -17,7 +17,7 @@ composer install
 php artisan larapie:install
 ```
 
-Edit the .env and enter your correct database details then run:
+Open the .env file and enter your database details then run:
 ```php
 php artisan db:reset
 ```

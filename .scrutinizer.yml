@@ -8,7 +8,7 @@ build:
   tests:
     override:
     - php-scrutinizer-run
-    - command: phpcs-run
+    - command: phpcs-run ./app
 checks:
   php:
     code_rating: true

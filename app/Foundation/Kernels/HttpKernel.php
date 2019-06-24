@@ -64,7 +64,7 @@ class HttpKernel extends Kernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'cors' => \Barryvdh\Cors\HandleCors::class,
-        'jsonheader'=> InjectAcceptJsonHeader::class
+        'jsonheader'=> InjectAcceptJsonHeader::class,
     ];
 
     /**

@@ -3,7 +3,6 @@
 namespace App\Foundation\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
 
 class InjectAcceptJsonHeader
 {

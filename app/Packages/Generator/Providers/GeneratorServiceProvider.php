@@ -14,8 +14,9 @@ class GeneratorServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if (!$this->app->environment('production'))
+        if (! $this->app->environment('production')) {
             $this->app->register(LarapieGeneratorServiceProvider::class);
+        }
     }
 
     /**
@@ -25,6 +26,5 @@ class GeneratorServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
     }
 }

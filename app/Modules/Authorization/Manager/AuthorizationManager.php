@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Modules\Authorization\Manager;
-
 
 use App\Modules\Authorization\Contracts\Role;
 use App\Modules\Authorization\Exceptions\DuplicatePermissionException;
@@ -21,13 +19,14 @@ class AuthorizationManager
                 foreach ($constants as $key => $value) {
                     if (Str::startsWith($key, 'PERMISSION_')) {
                         if ($permissions->contains($value)) {
-                            throw new DuplicatePermissionException("Permission $value is declared twice on policy: " . $policy->getFQN());
+                            throw new DuplicatePermissionException("Permission $value is declared twice on policy: ".$policy->getFQN());
                         }
                         $permissions->add($value);
                     }
                 }
             }
         }
+
         return $permissions;
     }
 
@@ -37,8 +36,9 @@ class AuthorizationManager
         $rolePermissions = collect(config('authorization.roles'));
 
         foreach ($roles as $role) {
-            if (!$rolePermissions->has($role))
+            if (! $rolePermissions->has($role)) {
                 $rolePermissions->put($role, []);
+            }
         }
 
         return $rolePermissions;

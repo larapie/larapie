@@ -1,0 +1,8 @@
+<?php
+
+namespace $NAMESPACE$;
+
+interface $CLASS$
+{
+    const ID = 'id';
+}

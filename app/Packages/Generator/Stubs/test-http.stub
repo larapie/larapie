@@ -1,0 +1,111 @@
+<?php
+
+namespace Modules\$MODULE$\Tests;
+
+use Modules\Auth0\Abstracts\AuthorizedHttpTest;
+use Modules\Authorization\Entities\Role;
+use Modules\$MODULE$\Contracts\$MODULE$ServiceContract;
+use Modules\$MODULE$\Entities\$MODULE$;
+use Modules\$MODULE$\Services\$MODULE$Service;
+use Modules\$MODULE$\Transformers\$MODULE$Transformer;
+
+class $MODULE$HttpTest extends AuthorizedHttpTest
+{
+    protected $roles = Role::ADMIN;
+
+    /**
+     * @var $MODULE$
+     */
+    protected $model;
+
+    /**
+     * @var $MODULE$Service
+     */
+    protected $service;
+
+    protected function seedData()
+    {
+        parent::seedData();
+        $this->model = factory($MODULE$::class)->create(['user_id' => $this->getActingUser()->id]);
+        $this->service = $this->app->make($MODULE$ServiceContract::class);
+    }
+
+    /**
+     * Test retrieving all $PLURAL_LOWER_MODULE$.
+     *
+     * @return void
+     */
+    public function testIndex$PLURAL_MODULE$()
+    {
+        $response = $this->http('GET', '/v1/$PLURAL_LOWER_MODULE$');
+        $response->assertStatus(200);
+
+        //TODO assert array rule
+        /*
+        $this->assertEquals(
+            $MODULE$Transformer::collection($this->service->getByUserId($this->getActingUser()->id))->serialize(),
+            $response->decode()
+        ); */
+    }
+
+    /**
+     * Test retrieving a $MODULE$.
+     *
+     * @return void
+     */
+    public function testFind$MODULE$()
+    {
+        $response = $this->http('GET', '/v1/$PLURAL_LOWER_MODULE$/'.$this->model->id);
+        $response->assertStatus(200);
+
+        $this->getActingUser()->syncRoles(Role::GUEST);
+        $response = $this->http('GET', '/v1/$PLURAL_LOWER_MODULE$/'.$this->model->id);
+        $response->assertStatus(403);
+    }
+
+    /**
+     * Test $MODULE$ Deletion.
+     *
+     * @return void
+     */
+    public function testDelete$MODULE$()
+    {
+        $response = $this->http('DELETE', '/v1/$PLURAL_LOWER_MODULE$/'.$this->model->id);
+        $response->assertStatus(204);
+    }
+
+    /**
+     * Test $MODULE$ Creation.
+     *
+     * @return void
+     */
+    public function testCreate$MODULE$()
+    {
+        $model = $MODULE$::fromFactory()->make([]);
+        $response = $this->http('POST', '/v1/$PLURAL_LOWER_MODULE$', $model->toArray());
+        $response->assertStatus(201);
+
+        //TODO ASSERT RESPONSE CONTAINS ATTRIBUTES
+        /*
+        $this->assertArrayHasKey('username', $this->decodeHttpResponse($response));
+        $this->assertArrayHasKey('password', $this->decodeHttpResponse($response));
+        */
+    }
+
+    /**
+     * Test Updating a $MODULE$.
+     *
+     * @return void
+     */
+    public function testUpdate$MODULE$()
+    {
+        /* Test response for a normal user */
+        $response = $this->http('PATCH', '/v1/$PLURAL_LOWER_MODULE$/'.$this->model->id, []);
+        $response->assertStatus(200);
+
+        /* Test response for a guest user */
+        $this->getActingUser()->syncRoles(Role::GUEST);
+        $response = $this->http('PATCH', '/v1/$PLURAL_LOWER_MODULE$/'.$this->model->id, []);
+        $response->assertStatus(403);
+    }
+}

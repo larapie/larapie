@@ -1,0 +1,12 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use Foundation\Abstracts\Repositories\Repository;
+use Modules\$MODULE$\Contracts\$CLASS$Contract;
+use $MODEL_NAMESPACE$;
+
+class $CLASS$ extends Repository implements $CLASS$Contract
+{
+    protected $eloquent = $MODEL$::class;
+}

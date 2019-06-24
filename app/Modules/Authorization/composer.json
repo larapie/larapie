@@ -1,0 +1,14 @@
+{
+    "name": "authorization",
+    "description": "The authorization module.",
+    "require": {
+        "spatie/laravel-permission": "^2.0"
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": [
+                "spatie/laravel-permission"
+            ]
+        }
+    }
+}

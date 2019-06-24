@@ -2,10 +2,17 @@
 
 namespace App\Modules\User\Policies;
 
+use App\Modules\Authorization\Contracts\Role;
 use App\Modules\User\Models\User;
 
 class UserPolicy
 {
+    const PERMISSION_CREATE = 'create-user';
+    const PERMISSION_CREATEs = 'create-userqsgdsgd';
+    const PERMISSION_UPDATE = 'update-user';
+    const PERMISSION_DELETE = 'delete-user';
+
+
     /**
      * Determine if the given user can access the model.
      *
@@ -13,9 +20,21 @@ class UserPolicy
      *
      * @return bool
      */
+    public function access(User $user, $model): bool
+    {
+        return $user->id === $model->id;
+    }
+
+    /**
+     * Determine if the given user can create a model.
+     *
+     * @param User $user
+     *
+     * @return bool
+     */
     public function create(User $user): bool
     {
-        return true;
+        return $user->hasPermissionTo(self::PERMISSION_CREATE);
     }
 
     /**
@@ -28,7 +47,7 @@ class UserPolicy
      */
     public function update(User $user, $model): bool
     {
-        return true;
+        return $this->access($user, $model) && $user->hasPermissionTo(self::PERMISSION_UPDATE);
     }
 
     /**
@@ -39,7 +58,7 @@ class UserPolicy
      */
     public function delete(User $user, $model): bool
     {
-        return true;
+        return $this->access($user, $model) && $user->hasPermissionTo(self::PERMISSION_DELETE);
     }
 
     /**
@@ -50,6 +69,7 @@ class UserPolicy
      */
     public function before($user, $ability)
     {
-
+        if ($user->hasRole(Role::ADMIN))
+            return true;
     }
 }

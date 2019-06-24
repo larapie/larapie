@@ -1,0 +1,83 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use Modules\$MODULE$\Entities\$MODULE$;
+use Modules\$MODULE$\Events\$MODULE$WasCreatedEvent;
+use Modules\$MODULE$\Events\$MODULE$WasUpdatedEvent;
+use Modules\$MODULE$\Events\$MODULE$WasDeletedEvent;
+use Modules\$MODULE$\Contracts\$CLASS$Contract;
+use Modules\$MODULE$\Contracts\$CLEAN_NAME$RepositoryContract;
+use Illuminate\Database\Eloquent\Collection;
+
+class $CLASS$ implements $CLASS$Contract
+{
+
+    /**
+     * @var $CLEAN_NAME$RepositoryContract
+     */
+    protected $repository;
+
+    /**
+     * $CLEAN_NAME$Service constructor.
+     * @param $repository
+     */
+    public function __construct($CLEAN_NAME$RepositoryContract $repository)
+    {
+        $this->repository = $repository;
+    }
+
+    /**
+     * @param $id
+     * @return $CLEAN_NAME$
+     */
+    public function find($id): $CLEAN_NAME$
+    {
+        return $this->repository->findOrResolve($id);
+    }
+
+    /**
+     * @param $id
+     * @return $CLEAN_NAME$[]
+     */
+    public function getByUserId($id): Collection
+    {
+        return $this->repository->findByField('user_id', $id)->get();
+    }
+
+    /**
+     * @param $id
+     * @param array $data
+     * @return $CLEAN_NAME$
+     */
+    public function update($id, array $data): $CLEAN_NAME$
+    {
+        $$LOWER_MODULE$ = $this->repository->update($id, $data);
+        event(new $MODULE$WasUpdatedEvent($$LOWER_MODULE$));
+        return $$LOWER_MODULE$;
+    }
+
+    /**
+     * @param array $data
+     * @return $CLEAN_NAME$
+     */
+    public function create(array $data): $CLEAN_NAME$
+    {
+        $$LOWER_MODULE$ = $this->repository->create($data);
+        event(new $MODULE$WasCreatedEvent($$LOWER_MODULE$));
+        return $$LOWER_MODULE$;
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function delete($id): bool
+    {
+        $$LOWER_MODULE$ = $this->repository->findOrResolve($id);
+        $deleted = $this->repository->delete($$LOWER_MODULE$);
+        if($deleted)
+            event(new $MODULE$WasDeletedEvent($$LOWER_MODULE$));
+        return $deleted;
+    }
+}

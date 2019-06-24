@@ -1,0 +1,96 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use Foundation\Abstracts\Controller\Controller;
+use Foundation\Responses\ApiResponse;
+use Modules\$MODULE$\Http\Requests\Create$MODULE$Request;
+use Modules\$MODULE$\Http\Requests\Delete$MODULE$Request;
+use Modules\$MODULE$\Http\Requests\Find$MODULE$Request;
+use Modules\$MODULE$\Http\Requests\Index$MODULE$Request;
+use Modules\$MODULE$\Http\Requests\Update$MODULE$Request;
+use Modules\$MODULE$\Contracts\$MODULE$ServiceContract;
+use Modules\$MODULE$\Transformers\$MODULE$Transformer;
+
+class $MODULE$Controller extends Controller
+{
+    /**
+     * @var $MODULE$ServiceContract
+     */
+    protected $service;
+
+    /**
+     * $MODULE$Controller constructor.
+     *
+     * @param $service
+     */
+    public function __construct($MODULE$ServiceContract $service)
+    {
+        $this->service = $service;
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Index$MODULE$Request $request)
+    {
+        return $MODULE$Transformer::collection($this->service->getByUserId(get_authenticated_user_id()));
+    }
+
+    /**
+     * Store a newly created $MODULE$ in storage.
+     */
+    public function store(Create$MODULE$Request $request)
+    {
+        $$LOWER_MODULE$ = $this->service->create($this->injectUserId($request));
+        return $MODULE$Transformer::resource($$LOWER_MODULE$);
+    }
+
+    /**
+     * Update a $MODULE$.
+     *
+     * @param Update$MODULE$Request $request
+     * @param $id
+     */
+    public function update(Update$MODULE$Request $request, $id)
+    {
+        $$LOWER_MODULE$ = $this->service->resolve($id);
+
+        $this->exists($$LOWER_MODULE$);
+        $this->hasAccess($$LOWER_MODULE$);
+        $$LOWER_MODULE$ = $this->service->update($id, $request->toArray());
+
+        return $MODULE$Transformer::resource($$LOWER_MODULE$);
+    }
+
+    /**
+     * Show the specified resource.
+     *
+     * @param Find$MODULE$Request $request
+     * @param $id
+     */
+    public function show(Find$MODULE$Request $request ,$id)
+    {
+        $$LOWER_MODULE$ = $this->service->resolve($id);
+
+        $this->exists($$LOWER_MODULE$);
+        $this->hasAccess($$LOWER_MODULE$);
+
+        return $MODULE$Transformer::resource($$LOWER_MODULE$);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Delete$MODULE$Request $request, $id)
+    {
+        $$LOWER_MODULE$ = $this->service->resolve($id);
+
+        $this->exists($$LOWER_MODULE$);
+        $this->hasAccess($$LOWER_MODULE$);
+
+        $this->service->delete($$LOWER_MODULE$);
+
+        return ApiResponse::deleted();
+    }
+}

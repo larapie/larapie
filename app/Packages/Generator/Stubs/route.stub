@@ -1,0 +1,24 @@
+<?php
+
+/*
+|--------------------------------------------------------------------------
+| $MODULE_NAME$ API Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register all API routes for the module $MODULE_NAME$. These
+| routes are automatically loaded by the Larapi framework and assigned to the "api" middleware group.
+| Enjoy building your API!
+|
+*/
+
+use Modules\Authorization\Entities\Permission;
+use Modules\$MODULE_NAME$\Permissions\$MODULE_NAME$Permission;
+
+Route::get('/', '$MODULE_NAME$Controller@index')->middleware(['permission:'.$MODULE_NAME$Permission::INDEX_$CAPS_MODULE_NAME$]);
+Route::get('/{id}', '$MODULE_NAME$Controller@show')->middleware(['permission:'.$MODULE_NAME$Permission::SHOW_$CAPS_MODULE_NAME$]);
+Route::post('/', '$MODULE_NAME$Controller@store')->middleware(['permission:'.$MODULE_NAME$Permission::CREATE_$CAPS_MODULE_NAME$]);
+Route::patch('/{id}', '$MODULE_NAME$Controller@update')->middleware(['permission:'.$MODULE_NAME$Permission::UPDATE_$CAPS_MODULE_NAME$]);
+Route::delete('/{id}', '$MODULE_NAME$Controller@destroy')->middleware(['permission:'.$MODULE_NAME$Permission::DELETE_$CAPS_MODULE_NAME$]);
+
+
+

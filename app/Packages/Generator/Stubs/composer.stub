@@ -1,0 +1,17 @@
+{
+    "name": "$LOWER_MODULE_NAME$",
+    "description": "The $LOWER_MODULE_NAME$ module.",
+    "require": {
+
+    },
+    "require-dev": {
+
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": [
+
+            ]
+        }
+    }
+}

@@ -1,0 +1,12 @@
+<?php
+
+namespace $NAMESPACE$;
+
+interface $CLASS$
+{
+    const INDEX_$CAPPED_MODULE$ = '$LOWER_MODULE$.index';
+    const SHOW_$CAPPED_MODULE$ = '$LOWER_MODULE$.show';
+    const UPDATE_$CAPPED_MODULE$ = '$LOWER_MODULE$.update';
+    const CREATE_$CAPPED_MODULE$ = '$LOWER_MODULE$.create';
+    const DELETE_$CAPPED_MODULE$ = '$LOWER_MODULE$.delete';
+}

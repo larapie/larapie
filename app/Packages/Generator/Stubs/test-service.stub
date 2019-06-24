@@ -1,0 +1,30 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use Foundation\Abstracts\Tests\TestCase;
+use Modules\$MODULE$\Entities\$MODULE$;
+
+class $CLASS$ extends TestCase
+{
+    /**
+     * @var $MODULE$[]
+     */
+    protected $models;
+
+    protected function seedData()
+    {
+        parent::seedData();
+        $this->models = $MODULE$::fromFactory(5)->create();
+    }
+
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function test$MODULE$Creation()
+    {
+        $this->assertNotEmpty($this->models->toArray());
+    }
+}

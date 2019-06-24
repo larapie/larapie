@@ -1,0 +1,34 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use Foundation\Abstracts\Transformers\Transformer;
+use Foundation\Exceptions\Exception;
+use Modules\$MODULE$\Entities\$MODEL$;
+
+class $CLASS$ extends Transformer
+{
+
+    /**
+     * Determines wich relations can be requested with the resource.
+     *
+     * @var array
+     */
+    public $available = [];
+
+    /**
+     * Transform the resource into an array.
+     *
+     * @throws Exception
+     *
+     * @return array
+     */
+    public function transformResource($MODULE$ $$LOWER_MODEL$)
+    {
+        return [
+            'id' => $$LOWER_MODEL$->id,
+            'created_at' => $$LOWER_MODEL$->created_at,
+            'updated_at' => $$LOWER_MODEL$->updated_at,
+        ];
+    }
+}

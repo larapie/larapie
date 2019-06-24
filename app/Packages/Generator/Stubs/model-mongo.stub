@@ -1,0 +1,56 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use Modules\Mongo\Abstracts\MongoModel as Model;
+use Modules\$MODULE$\Policies\$CLASS$Policy;
+use Modules\$MODULE$\Attributes\$CLASS$Attributes;
+use Foundation\Traits\ModelFactory;
+use Jenssegers\Mongodb\Eloquent\SoftDeletes;
+use Foundation\Contracts\Ownable;
+use Foundation\Traits\HasOwner;
+use Modules\User\Entities\User;
+
+/**
+ * Class $CLASS$.
+ *
+ * @property string $id
+ */
+class $CLASS$ extends Model implements $CLASS$Attributes, Ownable
+{
+    use ModelFactory, SoftDeletes, HasOwner;
+
+    protected $policies = [
+        $CLASS$Policy::class
+    ];
+
+    protected $observers = [
+
+    ];
+
+    /**
+     * @var string
+     */
+    protected $collection = '$PLURAL_LOWER_MODULE$';
+
+    /**
+     * @var array
+     */
+    protected $guarded = [];
+
+    /**
+     * @var array
+     */
+    protected $casts = [];
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
+
+    public function ownedBy()
+    {
+       return User::class;
+    }
+}

@@ -6,13 +6,15 @@ use App\Modules\User\Listeners\SendWelcomeNotification;
 use App\Modules\User\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Larapie\Core\Contracts\Listeners;
+use App\Modules\Authorization\Listeners\AssignDefaultRoleToUser;
 
 class UserRegisteredEvent extends Registered implements Listeners
 {
     public function listeners(): array
     {
         return [
-            SendWelcomeNotification::class,
+            AssignDefaultRoleToUser::class,
+            SendWelcomeNotification::class
         ];
     }
 

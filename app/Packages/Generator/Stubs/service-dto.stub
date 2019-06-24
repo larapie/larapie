@@ -1,0 +1,89 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use Modules\$MODULE$\Entities\$MODULE$;
+use Modules\$MODULE$\Events\$MODULE$WasCreatedEvent;
+use Modules\$MODULE$\Events\$MODULE$WasUpdatedEvent;
+use Modules\$MODULE$\Events\$MODULE$WasDeletedEvent;
+use Modules\$MODULE$\Contracts\$CLASS$Contract;
+use Modules\$MODULE$\Dtos\Create$CLEAN_NAME$Data;
+use Modules\$MODULE$\Dtos\Update$CLEAN_NAME$Data;
+use Modules\$MODULE$\Contracts\$CLEAN_NAME$RepositoryContract;
+use Illuminate\Database\Eloquent\Collection;
+use Modules\User\Entities\User;
+
+class $CLASS$ implements $CLASS$Contract
+{
+
+    /**
+     * @var $CLEAN_NAME$RepositoryContract
+     */
+    protected $repository;
+
+    /**
+     * $CLEAN_NAME$Service constructor.
+     * @param $repository
+     */
+    public function __construct($CLEAN_NAME$RepositoryContract $repository)
+    {
+        $this->repository = $repository;
+    }
+
+    /**
+     * @param $id
+     * @return $CLEAN_NAME$
+     */
+    public function find($id): $CLEAN_NAME$
+    {
+        return $this->repository->findOrResolve($id);
+    }
+
+    /**
+     * @param $user
+     * @return $CLEAN_NAME$[]
+     */
+    public function fromUser($user): Collection
+    {
+        if ($user instanceof User)
+            $user = $user->id;
+        return $this->repository->findByField('user_id', $user);
+    }
+
+    /**
+     * @param $id
+     * @param Update$CLEAN_NAME$Data $data
+     * @return $CLEAN_NAME$
+     */
+    public function update($id, Update$CLEAN_NAME$Data $data): $CLEAN_NAME$
+    {
+        $$LOWER_MODULE$ = $this->repository->update($id, $data->toArray());
+        event(new $MODULE$WasUpdatedEvent($$LOWER_MODULE$));
+        return $$LOWER_MODULE$;
+    }
+
+    /**
+     * @param Create$CLEAN_NAME$Data $data
+     * @return $CLEAN_NAME$
+     */
+    public function create(Create$CLEAN_NAME$Data $data, User $user): $CLEAN_NAME$
+    {
+        $data->with('user_id', $user->id);
+        $$LOWER_MODULE$ = $this->repository->create($data->toArray());
+        event(new $MODULE$WasCreatedEvent($$LOWER_MODULE$));
+        return $$LOWER_MODULE$;
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function delete($id): bool
+    {
+        $$LOWER_MODULE$ = $this->repository->findOrResolve($id);
+        $deleted = $this->repository->delete($$LOWER_MODULE$);
+        if($deleted)
+            event(new $MODULE$WasDeletedEvent($$LOWER_MODULE$));
+        return $deleted;
+    }
+}

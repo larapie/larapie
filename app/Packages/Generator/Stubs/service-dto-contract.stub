@@ -1,0 +1,44 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use Modules\$MODULE$\Entities\$MODULE$;
+use Modules\$MODULE$\Dtos\Create$MODULE$Data;
+use Modules\$MODULE$\Dtos\Update$MODULE$Data;
+use Illuminate\Database\Eloquent\Collection;
+use Modules\User\Entities\User;
+
+interface $CLASS$
+{
+    /**
+     * @param $id
+     * @return $MODULE$
+     */
+    public function find($id): $MODULE$;
+
+    /**
+     * @param $user
+     * @return $MODULE$[]
+     */
+    public function fromUser($user): Collection;
+
+    /**
+     * @param $id
+     * @param Create$MODULE$Data $data
+     * @return $MODULE$
+     */
+    public function create(Create$MODULE$Data $data, User $user): $MODULE$;
+
+    /**
+     * @param $id
+     * @param Update$MODULE$Data $data
+     * @return $MODULE$
+     */
+    public function update($id, Update$MODULE$Data $data): $MODULE$;
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function delete($id): bool;
+}

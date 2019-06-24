@@ -1,0 +1,47 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use $EVENT_NAMESPACE$;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Foundation\Abstracts\Listeners\Listener;
+
+class $CLASS$ extends Listener
+{
+
+    /**
+     * Create the event listener.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        //
+    }
+
+    /**
+     * Handle the event.
+     *
+     * @param  $EVENT$  $event
+     * @return void
+     */
+    public function handle($EVENT$ $event) :void
+    {
+        //
+    }
+
+
+    /**
+     * Handle the event.
+     *
+     * @param  $EVENT$  $event
+     * @param  \Exception  $exception
+     * @return void
+     */
+    public function failed($EVENT$ $event, $exception) :void
+    {
+        //
+    }
+
+}

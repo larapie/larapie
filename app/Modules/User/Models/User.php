@@ -8,10 +8,13 @@ use Illuminate\Foundation\Auth\User as Authenticable;
 use Illuminate\Notifications\Notifiable;
 use Larapie\Core\Contracts\Observers;
 use Larapie\Core\Contracts\Policy;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticable implements Observers, Policy
 {
-    use Notifiable;
+    use Notifiable, HasRoles;
+
+    protected $guard_name = 'web';
 
     /**
      * The attributes that are mass assignable.

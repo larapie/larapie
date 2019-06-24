@@ -1,0 +1,10 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use Larapie\Repository\Contracts\RepositoryInterface;
+
+interface $CLASS$ extends RepositoryInterface
+{
+
+}

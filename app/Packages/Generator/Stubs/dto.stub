@@ -1,0 +1,10 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use Foundation\Abstracts\Dtos\Dto;
+
+class $CLASS$ extends Dto
+{
+
+}

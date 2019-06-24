@@ -1,0 +1,14 @@
+<?php
+
+use Modules\Mongo\Abstracts\MongoCollectionMigration as Migration;
+use Jenssegers\Mongodb\Schema\Blueprint;
+
+class $CLASS$ extends Migration
+{
+    protected $collection = '$TABLE$';
+
+    public function migrate(Blueprint $schema)
+    {
+
+    }
+}

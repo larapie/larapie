@@ -1,0 +1,40 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use Foundation\Abstracts\Events\Event;
+use Modules\$MODULE$\Entities\$MODULE$;
+
+class $CLASS$ extends Event
+{
+
+    /**
+     * The listeners that will be fired when the event is dispatched.
+     * @var array
+     */
+    public $listeners = [];
+
+    /**
+     * @var $MODULE$
+     */
+    public $$LOWER_MODULE$;
+
+    /**
+     * Create a new event instance.
+     *
+     */
+    public function __construct($MODULE$ $$LOWER_MODULE$)
+    {
+        $this->$LOWER_MODULE$ = $$LOWER_MODULE$;
+    }
+
+    /**
+     * Get the channels the event should be broadcast on.
+     *
+     * @return array
+     */
+    public function broadcastOn()
+    {
+        return [];
+    }
+}

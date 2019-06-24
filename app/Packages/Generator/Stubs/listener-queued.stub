@@ -1,0 +1,45 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use $EVENT_NAMESPACE$;
+use Foundation\Abstracts\Listeners\QueuedListener;
+
+class $CLASS$ extends QueuedListener
+{
+
+    /**
+     * Create the event listener.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        //
+    }
+
+    /**
+     * Handle the event.
+     *
+     * @param  $EVENT$  $event
+     * @return void
+     */
+    public function handle($EVENT$ $event) :void
+    {
+        //
+    }
+
+
+    /**
+     * Handle the event.
+     *
+     * @param  $EVENT$  $event
+     * @param  \Exception  $exception
+     * @return void
+     */
+    public function failed($EVENT$ $event, $exception) :void
+    {
+        //
+    }
+
+}

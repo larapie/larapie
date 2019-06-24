@@ -4,9 +4,9 @@ dist: bionic
 
 services:
 - redis-server
+- mysql
 
 addons:
-  mariadb: '10.4'
   hosts:
   - larapie.test
   - api.larapie.test

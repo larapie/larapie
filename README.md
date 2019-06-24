@@ -17,5 +17,10 @@ composer install
 php artisan larapie:install
 ```
 
+Edit the .env and enter your correct database details then run:
+```php
+php artisan db:reset
+```
+
 WARNING:
 This repository is in it's early stages. Heavy development is going on and things are going to break. Please check it out for educational purposes only for now. Notice will be given when it is production ready.

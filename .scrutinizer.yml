@@ -1,27 +1,14 @@
----
 build:
   dependencies:
     before:
-    - "pecl uninstall igbinary"
-    - "pecl uninstall redis"
-    - "pecl uninstall mongodb"
-    - "pecl install igbinary"
-    - "yes | pecl install redis"
-    - "pecl install mongodb"
-    - "cp .env.travis .env"
-    - "composer require wikimedia/composer-merge-plugin"
-    - "composer update --lock"
-    - "composer update --lock"
+    - "composer install"
   environment:
-    mongodb: "4.0"
-    node: "10"
     php:
       version: 7.2
   tests:
     override:
     - php-scrutinizer-run
     - command: phpcs-run
-      use_website_config: true
 checks:
   php:
     code_rating: true
@@ -46,7 +33,7 @@ filter:
   - src/Modules/*/Tests/*
 tools:
   external_code_coverage:
-    timeout: 3600    # Timeout in seconds.
+    timeout: 600    # Timeout in seconds.
   php_mess_detector: true
   php_code_sniffer: true
   sensiolabs_security_checker: true

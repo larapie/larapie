@@ -6,7 +6,8 @@ use Larapie\Core\Base\Test;
 
 class UserTest extends Test
 {
-    public function testSomething(){
+    public function testSomething()
+    {
         $this->assertTrue(true);
     }
 }

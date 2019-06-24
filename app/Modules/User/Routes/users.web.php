@@ -12,4 +12,3 @@
 */
 
 // example: Route::get('/forgotpass','ForgotPasswordController@showLinkRequestForm');
-

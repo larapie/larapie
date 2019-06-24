@@ -11,7 +11,6 @@ use Laravel\Telescope\TelescopeApplicationServiceProvider;
 
 class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
 {
-
     protected $ignoredDatabaseTables = [
         'permissions',
         'roles',
@@ -21,7 +20,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
         'migrations',
         'telescope_monitoring',
         'telescope_entries_tags',
-        'telescope_entries'
+        'telescope_entries',
     ];
 
     public function boot()
@@ -81,8 +80,9 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
     {
         if ($entry->type === EntryType::QUERY && isset($entry->content['sql'])) {
             foreach ($this->ignoredDatabaseTables as $table) {
-                if (Str::contains($entry->content['sql'], "`$table`"))
+                if (Str::contains($entry->content['sql'], "`$table`")) {
                     return false;
+                }
             }
         }
     }
@@ -107,5 +107,4 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
     {
         parent::authorization();
     }
-
 }

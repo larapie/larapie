@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Modules\User\Notifications;
-
 
 use App\Modules\User\Models\User;
 use Illuminate\Bus\Queueable;
@@ -25,11 +23,10 @@ class WelcomeNotification extends Notification implements ShouldQueue
         $this->user = $user;
     }
 
-
     public function toMail(User $user)
     {
         return (new MailMessage)
-            ->greeting('Hello! ' . $user->name)
+            ->greeting('Hello! '.$user->name)
             ->line('Welcome to Larapie!')
             ->line('Thank you for using our application!');
     }

@@ -29,8 +29,8 @@ return [
         Role::MEMBER => [
             UserPolicy::PERMISSION_CREATE,
             UserPolicy::PERMISSION_UPDATE,
-            UserPolicy::PERMISSION_DELETE
+            UserPolicy::PERMISSION_DELETE,
         ],
-        Role::ADMIN => '*'
-    ]
+        Role::ADMIN => '*',
+    ],
 ];

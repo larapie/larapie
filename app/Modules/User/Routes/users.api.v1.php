@@ -11,7 +11,6 @@
 |
 */
 
-
 Route::get('/me', 'UserController@show');
 Route::patch('/{id}', 'UserController@update');
 Route::get('/', 'UserController@index');

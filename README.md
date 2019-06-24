@@ -14,6 +14,7 @@ Fully featured larapie framework.
 To install please clone the repository and run:
 ```php
 composer install
+php artisan larapie:install
 ```
 
 WARNING:

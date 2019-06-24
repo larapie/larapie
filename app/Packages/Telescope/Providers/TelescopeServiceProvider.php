@@ -2,35 +2,13 @@
 
 namespace App\Packages\Telescope\Providers;
 
-use Illuminate\Support\Facades\Redis;
-use Illuminate\Support\Str;
-use Laravel\Telescope\EntryType;
+use Gate;
 use Laravel\Telescope\IncomingEntry;
 use Laravel\Telescope\Telescope;
 use Laravel\Telescope\TelescopeApplicationServiceProvider;
 
 class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
 {
-
-    protected $ignoredDatabaseTables = [
-        'permissions',
-        'roles',
-        'model_has_roles',
-        'model_has_permissions',
-        'role_has_permissions',
-        'migrations',
-        'telescope_monitoring',
-        'telescope_entries_tags',
-        'telescope_entries'
-    ];
-
-    public function boot()
-    {
-        //DB::connection('mongodb')->enableQueryLog();
-        //DB::connection('telescope')->disableQueryLog();
-        Redis::enableEvents();
-    }
-
     /**
      * Register any application services.
      *
@@ -39,20 +17,13 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
     public function register()
     {
         $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+         Telescope::night();
 
-        Telescope::night();
+        $this->hideSensitiveRequestDetails();
 
         Telescope::filter(function (IncomingEntry $entry) {
-            if (is_bool($filter = $this->filterHorizonEntries($entry))) {
-                return $filter;
-            }
-
-            if (is_bool($filter = $this->filterCorsRequests($entry))) {
-                return $filter;
-            }
-
-            if (is_bool($filter = $this->filterIgnoredDatabaseTables($entry))) {
-                return $filter;
+            if ($this->app->isLocal()) {
+                return true;
             }
 
             return $entry->isReportableException() ||
@@ -62,38 +33,24 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
         });
     }
 
-    protected function filterHorizonEntries(IncomingEntry $entry)
+    /**
+     * Prevent sensitive request details from being logged by Telescope.
+     *
+     * @return void
+     */
+    protected function hideSensitiveRequestDetails()
     {
-        if ($entry->type === EntryType::REQUEST
-            && isset($entry->content['uri'])
-            && Str::contains($entry->content['uri'], 'horizon')) {
-            return false;
+        if ($this->app->isLocal()) {
+            return;
         }
 
-        if ($entry->type === EntryType::EVENT
-            && isset($entry->content['name'])
-            && Str::contains($entry->content['name'], 'Horizon')) {
-            return false;
-        }
-    }
+        Telescope::hideRequestParameters(['_token']);
 
-    protected function filterIgnoredDatabaseTables(IncomingEntry $entry)
-    {
-        if ($entry->type === EntryType::QUERY && isset($entry->content['sql'])) {
-            foreach ($this->ignoredDatabaseTables as $table) {
-                if (Str::contains($entry->content['sql'], "`$table`"))
-                    return false;
-            }
-        }
-    }
-
-    protected function filterCorsRequests(IncomingEntry $entry)
-    {
-        if ($entry->type === EntryType::REQUEST
-            && isset($entry->content['method'])
-            && $entry->content['method'] === 'OPTIONS') {
-            return false;
-        }
+        Telescope::hideRequestHeaders([
+            'cookie',
+            'x-csrf-token',
+            'x-xsrf-token',
+        ]);
     }
 
     /**
@@ -103,9 +60,13 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      *
      * @return void
      */
-    protected function authorization()
+    protected function gate()
     {
-        parent::authorization();
+        Gate::define('viewTelescope', function ($user) {
+            return in_array($user->email, [
+                //
+            ]);
+        });
     }
 
 }

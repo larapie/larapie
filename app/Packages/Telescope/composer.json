@@ -1,7 +1,7 @@
 {
     "name": "Telescope",
     "require": {
-        "laravel/telescope": "*"
+        "laravel/telescope": "^2.0"
     },
     "extra": {
         "laravel": {

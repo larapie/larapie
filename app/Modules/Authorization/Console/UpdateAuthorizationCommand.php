@@ -7,8 +7,6 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 
 class UpdateAuthorizationCommand extends Command
 {
@@ -61,7 +59,6 @@ class UpdateAuthorizationCommand extends Command
         $this->synchronizeRoles($roles, $newRoles);
     }
 
-
     /**
      * @param Permission[] | Collection $permissions
      * @param Collection $newPermissions
@@ -69,12 +66,12 @@ class UpdateAuthorizationCommand extends Command
     protected function synchronizePermissions($permissions, $newPermissions)
     {
         foreach ($newPermissions as $newPermission) {
-            if (is_numeric($key = $permissions->search($newPermission)))
+            if (is_numeric($key = $permissions->search($newPermission))) {
                 $permissions->forget($key);
-            else {
+            } else {
                 $this->info("Adding permission: $newPermission");
                 Permission::create([
-                    "name" => $newPermission
+                    'name' => $newPermission,
                 ]);
             }
         }
@@ -92,15 +89,16 @@ class UpdateAuthorizationCommand extends Command
     protected function synchronizeRoles($roles, $newRoles)
     {
         foreach ($newRoles as $newRole => $newPermissions) {
-            if ($newPermissions === "*")
+            if ($newPermissions === '*') {
                 $newPermissions = AuthorizationManager::getPermissions();
+            }
             if (is_numeric($key = $roles->search($newRole))) {
                 $roles->forget($key);
                 $this->synchronizeRolePermissions($newRole, $newPermissions);
             } else {
                 $this->info("Adding role: $newRole");
                 $role = Role::create([
-                    "name" => $newRole
+                    'name' => $newRole,
                 ]);
                 $role->givePermissionTo($newPermissions);
             }
@@ -130,5 +128,4 @@ class UpdateAuthorizationCommand extends Command
             $role->revokePermissionTo($oldPermission);
         }
     }
-
 }

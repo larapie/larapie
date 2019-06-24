@@ -46,7 +46,7 @@ class User extends Authenticable implements Observers, Policy
     public function observers(): array
     {
         return [
-            UserObserver::class
+            UserObserver::class,
         ];
     }
 

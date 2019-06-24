@@ -12,7 +12,6 @@ class UserPolicy
     const PERMISSION_UPDATE = 'update-user';
     const PERMISSION_DELETE = 'delete-user';
 
-
     /**
      * Determine if the given user can access the model.
      *
@@ -69,7 +68,8 @@ class UserPolicy
      */
     public function before($user, $ability)
     {
-        if ($user->hasRole(Role::ADMIN))
+        if ($user->hasRole(Role::ADMIN)) {
             return true;
+        }
     }
 }

@@ -11,6 +11,6 @@
 |
 */
 
-Route::get('/',function (){
-    return response()->json(config('app.name') . ' Api');
+Route::get('/', function () {
+    return response()->json(config('app.name').' Api');
 });

@@ -13,7 +13,7 @@ class AuthorizationServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-       //
+        //
     }
 
     /**
@@ -23,6 +23,6 @@ class AuthorizationServiceProvider extends ServiceProvider
      */
     public function register()
     {
-       $this->app->register(\Spatie\Permission\PermissionServiceProvider::class);
+        $this->app->register(\Spatie\Permission\PermissionServiceProvider::class);
     }
 }

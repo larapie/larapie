@@ -8,8 +8,8 @@
 
 namespace App\Packages\Telescope\Console;
 
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
 
 class PublishTelescopeAssetsCommand extends Command
 {

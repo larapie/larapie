@@ -42,8 +42,9 @@ class UserController extends Controller
     {
         $success = User::update($id, $request->all());
 
-        if ($success)
+        if ($success) {
             return response()->json('success');
+        }
 
         return response()->json('failed')->setStatusCode(500);
     }
@@ -59,8 +60,9 @@ class UserController extends Controller
     {
         $success = User::destroy($id);
 
-        if ($success)
+        if ($success) {
             return response()->json('success');
+        }
 
         return response()->json('failed')->setStatusCode(500);
     }

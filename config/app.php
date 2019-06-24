@@ -174,7 +174,7 @@ return [
         App\Foundation\Providers\BroadcastServiceProvider::class,
         App\Foundation\Providers\EventServiceProvider::class,
         App\Foundation\Providers\RouteServiceProvider::class,
-        Larapie\Core\LarapieServiceProvider::class
+        Larapie\Core\LarapieServiceProvider::class,
 
     ],
 

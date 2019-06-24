@@ -23,12 +23,10 @@ class UserServiceProvider extends ServiceProvider implements Scheduling
      */
     public function register()
     {
-
     }
 
     public function schedule(\Illuminate\Console\Scheduling\Schedule $schedule): void
     {
         //Schedule commands or jobs here.
     }
-
 }

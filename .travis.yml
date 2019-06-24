@@ -27,7 +27,7 @@ cache:
 
 before_install:
 - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
-- sudo mysql_upgrade -u root -p
+- sudo mysql_upgrade -u root
 - sudo service mysql restart
 - mysql -u root -e 'CREATE DATABASE IF NOT EXISTS travis;'
 - echo '' > ./storage/logs/laravel.log

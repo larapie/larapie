@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false">
+    <testsuites>
+        <testsuite name="Module Tests">
+            <directory suffix="Test.php">./app/Modules/*/Tests</directory>
+        </testsuite>
+        <testsuite name="Foundation Tests">
+            <directory suffix="Test.php">./app/Foundation/Tests</directory>
+        </testsuite>
+        <testsuite name="Package Tests">
+            <directory suffix="Test.php">./app/Packages/Tests</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">./app/Modules</directory>
+            <directory suffix=".php">./app/Foundation</directory>
+            <exclude>
+                <directory suffix=".php">./app/Modules/*/Routes</directory>
+                <directory suffix=".php">./app/Modules/*/Database</directory>
+                <directory suffix=".php">./app/Modules/*/Tests</directory>
+                <directory suffix=".php">./app/Foundation/Routes</directory>
+                <directory suffix=".php">./app/Foundation/Tests</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+    <php>
+        <server name="APP_DEBUG" value="true"/>
+        <server name="APP_ENV" value="testing"/>
+        <server name="BCRYPT_ROUNDS" value="4"/>
+        <server name="CACHE_DRIVER" value="array"/>
+        <server name="MAIL_DRIVER" value="array"/>
+        <server name="QUEUE_CONNECTION" value="sync"/>
+        <server name="SESSION_DRIVER" value="array"/>
+        <server name="MONGODB_DB_DATABASE" value="testing"/>
+        <server name="DB_DATABASE" value="testing"/>
+        <server name="MODEL_CACHING" value="true"/>
+    </php>
+</phpunit>

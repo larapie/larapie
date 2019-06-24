@@ -1,0 +1,14 @@
+{
+    "name": "laravel-ide-helper",
+    "require-dev": {
+        "barryvdh/laravel-ide-helper": "^2.0",
+        "doctrine/dbal": "~2.3"
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": [
+                "barryvdh/laravel-ide-helper"
+            ]
+        }
+    }
+}

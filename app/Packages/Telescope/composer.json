@@ -1,0 +1,13 @@
+{
+    "name": "Telescope",
+    "require": {
+        "laravel/telescope": "*"
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": [
+                "laravel/telescope"
+            ]
+        }
+    }
+}

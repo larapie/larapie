@@ -1,0 +1,59 @@
+language: php
+
+dist: xenial
+
+sudo: true
+
+services:
+- redis-server
+- mysql
+
+addons:
+  hosts:
+  - larapie.test
+  - api.larapie.test
+
+env:
+  global:
+  - setup=normal
+
+matrix:
+  fast_finish: true
+  include:
+    - php: '7.2'
+    - php: '7.3'
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+before_install:
+- sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('root') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
+- sudo mysql_upgrade -u root -p root
+- sudo service mysql restart
+- sudo mysql -e 'CREATE DATABASE IF NOT EXISTS travis;'
+- echo '' > ./storage/logs/laravel.log
+- cp .env.travis .env
+
+install:
+- pecl uninstall igbinary
+- pecl uninstall redis
+- pecl install igbinary
+- yes | pecl install redis
+- travis_retry composer self-update
+- composer install
+
+before_script:
+- php artisan key:generate
+
+script:
+- if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.2" ]]; then vendor/bin/phpunit --coverage-clover=coverage.clover; else vendor/bin/phpunit; fi
+
+after_script:
+- if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.2" ]]; then wget https://scrutinizer-ci.com/ocular.phar; fi
+- if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.2" ]]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
+
+after_failure:
+- echo --------------- Begin > Laravel.log ---------------
+- cat storage/logs/laravel.log
+- echo --------------- End   > Laravel.log ---------------

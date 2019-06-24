@@ -1,0 +1,13 @@
+{
+    "name": "Cors",
+    "require": {
+        "barryvdh/laravel-cors": "^0.11.2"
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": [
+                "barryvdh/laravel-cors"
+            ]
+        }
+    }
+}

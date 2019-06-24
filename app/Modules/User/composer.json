@@ -1,0 +1,14 @@
+{
+    "name": "user",
+    "description": "",
+    "extra": {
+        "laravel": {
+            "providers": [
+
+            ],
+            "aliases": {
+                
+            }
+        }
+    }
+}

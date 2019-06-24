@@ -1,0 +1,13 @@
+{
+    "name": "Horizon",
+    "require": {
+        "laravel/horizon": "^1.4"
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": [
+                "laravel/horizon"
+            ]
+        }
+    }
+}

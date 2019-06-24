@@ -1,0 +1,13 @@
+{
+    "name": "Generator",
+    "require": {
+        "larapie/generator": "dev-master"
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": [
+                "larapie/generator"
+            ]
+        }
+    }
+}

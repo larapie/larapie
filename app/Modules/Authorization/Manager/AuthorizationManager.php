@@ -26,8 +26,7 @@ class AuthorizationManager
                 }
             }
         }
-
-        return $permissions;
+        return $permissions->merge(config('authorization.permissions'));
     }
 
     public static function getRoles(): Collection

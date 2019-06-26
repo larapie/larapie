@@ -13,6 +13,7 @@
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
+        "lorisleiva/laravel-actions": "^0.1.3",
         "wikimedia/composer-merge-plugin": "^1.4"
     },
     "require-dev": {

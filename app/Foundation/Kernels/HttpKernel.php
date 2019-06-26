@@ -2,7 +2,6 @@
 
 namespace App\Foundation\Kernels;
 
-use App\Foundation\Http\Middleware\InjectAcceptJsonHeader;
 use Illuminate\Foundation\Http\Kernel;
 
 class HttpKernel extends Kernel
@@ -43,6 +42,7 @@ class HttpKernel extends Kernel
             'bindings',
             'jsonheader',
             'cors',
+            'auth0'
         ],
     ];
 
@@ -63,8 +63,10 @@ class HttpKernel extends Kernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+
         'cors' => \Barryvdh\Cors\HandleCors::class,
-        'jsonheader'=> InjectAcceptJsonHeader::class,
+        'jsonheader'=> \App\Foundation\Http\Middleware\InjectApplicationJsonHeader::class,
+        'auth0' => \App\Modules\Auth0\Middleware\Auth0AuthenticationMiddleware::class
     ];
 
     /**

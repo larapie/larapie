@@ -1,0 +1,14 @@
+{
+    "name": "Auth0",
+    "description": "",
+    "require": {
+        "auth0/login": "^5.0"
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": [
+                "auth0/login"
+            ]
+        }
+    }
+}

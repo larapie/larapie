@@ -5,6 +5,7 @@ namespace App\Modules\Authorization\Console;
 use App\Modules\Authorization\Manager\AuthorizationManager;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
+use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -100,7 +101,7 @@ class UpdateAuthorizationCommand extends Command
                 $role = Role::create([
                     'name' => $newRole,
                 ]);
-                $role->givePermissionTo($newPermissions);
+                $this->givePermission($role, $newPermissions);
             }
         }
 
@@ -119,13 +120,28 @@ class UpdateAuthorizationCommand extends Command
             if (is_numeric($key = $oldPermissions->search($newPermission))) {
                 $oldPermissions->forget($key);
             } else {
-                $this->info("Adding Permission $newPermission to Role $role->name");
-                $role->givePermissionTo($newPermission);
+                $this->info("Adding Permission: $newPermission to Role $role->name");
+                $this->givePermission($role, $newPermission);
             }
         }
         foreach ($oldPermissions as $oldPermission) {
             $this->warn("Removing Permission $oldPermission from Role $newRole.");
             $role->revokePermissionTo($oldPermission);
+        }
+    }
+
+    protected function givePermission(Role $role, $permissions)
+    {
+        if(is_string($permissions)){
+            $permissions = [$permissions];
+        }
+        foreach($permissions as $permission){
+            try {
+                Permission::findByName($permission);
+            } catch (PermissionDoesNotExist $exception) {
+                Permission::create(['name' => $permission]);
+            }
+            $role->givePermissionTo($permission);
         }
     }
 }

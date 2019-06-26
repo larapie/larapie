@@ -8,7 +8,6 @@ use App\Modules\User\Models\User;
 class UserPolicy
 {
     const PERMISSION_CREATE = 'create-user';
-    const PERMISSION_CREATEs = 'create-userqsgdsgd';
     const PERMISSION_UPDATE = 'update-user';
     const PERMISSION_DELETE = 'delete-user';
 

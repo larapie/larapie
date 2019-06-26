@@ -79,9 +79,7 @@ return [
     |
     */
 
-    'model_locations' => [
-        'app/*/Modules',
-    ],
+    'model_locations' => \App\Packages\IdeHelper\Manager\IdeHelperManager::getModelPaths(),
 
     /*
     |--------------------------------------------------------------------------
@@ -202,6 +200,6 @@ return [
     | magic methods and properties.
     |
     */
-    'include_class_docblocks' => false,
+    'include_class_docblocks' => true,
 
 ];

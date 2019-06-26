@@ -16,7 +16,10 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      */
     public function register()
     {
-        $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+        if ($this->app->environment() !== 'testing') {
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+        }
+
         Telescope::night();
 
         $this->hideSensitiveRequestDetails();

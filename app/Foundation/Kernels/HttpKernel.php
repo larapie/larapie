@@ -41,7 +41,7 @@ class HttpKernel extends Kernel
             'throttle:60,1',
             'bindings',
             'jsonheader',
-            'cors'
+            'cors',
         ],
 
         'api' => [
@@ -49,7 +49,7 @@ class HttpKernel extends Kernel
             'bindings',
             'jsonheader',
             'cors',
-            'auth0'
+            'auth0',
         ],
     ];
 
@@ -73,7 +73,7 @@ class HttpKernel extends Kernel
 
         'cors' => \Barryvdh\Cors\HandleCors::class,
         'jsonheader'=> \App\Foundation\Http\Middleware\InjectApplicationJsonHeader::class,
-        'auth0' => \App\Modules\Auth0\Middleware\Auth0AuthenticationMiddleware::class
+        'auth0' => \App\Modules\Auth0\Middleware\Auth0AuthenticationMiddleware::class,
     ];
 
     /**

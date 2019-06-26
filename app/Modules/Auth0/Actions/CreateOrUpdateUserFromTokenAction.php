@@ -3,8 +3,8 @@
 namespace App\Modules\Auth0\Actions;
 
 use App\Modules\Auth0\Exceptions\EmailNotVerifiedException;
-use App\Modules\User\Actions\CreateUserAction;
 use App\Modules\Auth0\Services\Auth0Service;
+use App\Modules\User\Actions\CreateUserAction;
 use App\Modules\User\Models\User;
 use App\Packages\Actions\Abstracts\Action;
 use Carbon\Carbon;
@@ -29,23 +29,25 @@ class CreateOrUpdateUserFromTokenAction extends Action
         // If the email is not verified we cannot verify that the account is from the mail owner.
         // This also means that a user will always have 1 account per mail.
         // Regardless of what identity provider he's using.
-        if(!$token->email_verified)
-            throw new EmailNotVerifiedException("Access Denied: email not verified.");
-
+        if (! $token->email_verified) {
+            throw new EmailNotVerifiedException('Access Denied: email not verified.');
+        }
         $user = User::where('email', $token->email)->first();
 
-        if ($user === null)
+        if ($user === null) {
             return (new CreateUserAction([
-                "name" => $token->name,
-                "email" => $token->email,
-                "email_verified_at" => $token->email_verified ? Carbon::now() : null,
-                "password" => Hash::make(Str::random())
+                'name' => $token->name,
+                'email' => $token->email,
+                'email_verified_at' => $token->email_verified ? Carbon::now() : null,
+                'password' => Hash::make(Str::random()),
             ]))->run();
+        }
 
         if ($token->name !== $user->name) {
             $user->name = $token->name;
             $user->save();
         }
+
         return $user;
     }
 }

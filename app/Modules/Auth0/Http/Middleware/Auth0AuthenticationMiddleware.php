@@ -4,7 +4,6 @@ namespace App\Modules\Auth0\Middleware;
 
 use App\Modules\Auth0\Actions\CreateOrUpdateUserFromTokenAction;
 use App\Modules\Auth0\Exceptions\EmailNotVerifiedException;
-use Auth0\Login\Contract\Auth0UserRepository;
 use Auth0\SDK\Exception\CoreException;
 use Auth0\SDK\Exception\InvalidTokenException;
 use Closure;
@@ -24,7 +23,7 @@ class Auth0AuthenticationMiddleware
     {
         try {
             $user = (new CreateOrUpdateUserFromTokenAction([
-                "token" => $request->bearerToken()
+                'token' => $request->bearerToken(),
             ]))->run();
 
             if (! $user) {
@@ -36,8 +35,7 @@ class Auth0AuthenticationMiddleware
             return response()->json(['error' => 'Invalid or no token set.'], 401);
         } catch (CoreException $e) {
             return response()->json(['error' => $e->getMessage()], 401);
-        }
-        catch (EmailNotVerifiedException $e) {
+        } catch (EmailNotVerifiedException $e) {
             return response()->json(['error' => $e->getMessage()], 401);
         }
 

@@ -1,7 +1,6 @@
 <?php
 
 use App\Modules\Authorization\Contracts\Roles;
-use App\Modules\User\Policies\UserPolicy;
 
 return [
 
@@ -15,7 +14,6 @@ return [
     */
 
     'default_role' => Roles::MEMBER,
-
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +50,7 @@ return [
         Roles::MEMBER => [
             \App\Modules\User\Permissions\UserPermission::CREATE,
             \App\Modules\User\Permissions\UserPermission::UPDATE,
-            \App\Modules\User\Permissions\UserPermission::DELETE
+            \App\Modules\User\Permissions\UserPermission::DELETE,
         ],
         Roles::ADMIN => '*',
     ],

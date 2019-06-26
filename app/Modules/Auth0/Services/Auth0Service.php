@@ -3,9 +3,9 @@
 namespace App\Modules\Auth0\Services;
 
 use Auth0\Login\LaravelSessionStore;
-use Auth0\SDK\Helpers\Cache\CacheHandler;
 use Auth0\SDK\API\Authentication;
 use Auth0\SDK\Auth0;
+use Auth0\SDK\Helpers\Cache\CacheHandler;
 use Auth0\SDK\JWTVerifier;
 use Illuminate\Contracts\Container\BindingResolutionException;
 
@@ -22,7 +22,8 @@ class Auth0Service
     private $_onLoginCb = null;
     private $rememberUser = false;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->auth0Config = config('laravel-auth0');
 
         $this->auth0Config['store'] = new LaravelSessionStore();
@@ -51,7 +52,7 @@ class Auth0Service
     }
 
     /**
-     * Redirects the user to the hosted login page
+     * Redirects the user to the hosted login page.
      */
     public function login($connection = null, $state = null, $additional_params = ['scope' => 'openid profile email'], $response_type = 'code')
     {

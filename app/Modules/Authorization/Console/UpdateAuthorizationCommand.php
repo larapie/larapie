@@ -66,8 +66,9 @@ class UpdateAuthorizationCommand extends Command
         $roles = new Collection();
 
         foreach (config('authorization.roles') as $role => $possibleWildcard) {
-            if ($possibleWildcard === "*")
+            if ($possibleWildcard === '*') {
                 $roles->add($role);
+            }
         }
         if ($roles->isNotEmpty()) {
             $permissions = Permission::all()->pluck('name');
@@ -75,13 +76,13 @@ class UpdateAuthorizationCommand extends Command
             foreach ($roles as $role) {
                 $role = Role::findByName($role);
                 foreach ($permissions as $permission) {
-                    if (!$role->hasPermissionTo($permission))
+                    if (! $role->hasPermissionTo($permission)) {
                         $this->info("Adding $permission permission to $role. Role is asssigned a wildcard");
+                    }
                 }
                 $role->syncPermissions($permissions);
             }
         }
-
     }
 
     /**

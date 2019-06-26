@@ -2,7 +2,7 @@
 
 namespace App\Modules\Authorization\Contracts;
 
-interface Role
+interface Roles
 {
     const GUEST = 'guest';
     const ADMIN = 'admin';

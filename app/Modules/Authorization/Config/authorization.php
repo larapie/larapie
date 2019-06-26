@@ -1,6 +1,6 @@
 <?php
 
-use App\Modules\Authorization\Contracts\Role;
+use App\Modules\Authorization\Contracts\Roles;
 use App\Modules\User\Policies\UserPolicy;
 
 return [
@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'default_role' => Role::MEMBER,
+    'default_role' => Roles::MEMBER,
 
 
     /*
@@ -29,7 +29,12 @@ return [
     |
     */
     'permissions' => [
+        \App\Modules\Authorization\Permissions\AuthorizationPermission::CREATE_PERMISSION,
+        \App\Modules\Authorization\Permissions\AuthorizationPermission::CREATE_ROLE,
 
+        \App\Modules\User\Permissions\UserPermission::CREATE,
+        \App\Modules\User\Permissions\UserPermission::UPDATE,
+        \App\Modules\User\Permissions\UserPermission::DELETE,
     ],
 
     /*
@@ -44,11 +49,11 @@ return [
     |
     */
     'roles' => [
-        Role::MEMBER => [
-            UserPolicy::PERMISSION_CREATE,
-            UserPolicy::PERMISSION_UPDATE,
-            UserPolicy::PERMISSION_DELETE
+        Roles::MEMBER => [
+            \App\Modules\User\Permissions\UserPermission::CREATE,
+            \App\Modules\User\Permissions\UserPermission::UPDATE,
+            \App\Modules\User\Permissions\UserPermission::DELETE
         ],
-        Role::ADMIN => '*',
+        Roles::ADMIN => '*',
     ],
 ];

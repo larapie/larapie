@@ -2,13 +2,14 @@
 
 namespace App\Modules\Auth0\Actions;
 
+use App\Modules\Auth0\Exceptions\EmailNotVerifiedException;
 use App\Modules\User\Actions\CreateUserAction;
 use App\Modules\Auth0\Services\Auth0Service;
 use App\Modules\User\Models\User;
+use App\Packages\Actions\Abstracts\Action;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use Lorisleiva\Actions\Action;
 
 class CreateOrUpdateUserFromTokenAction extends Action
 {
@@ -21,7 +22,15 @@ class CreateOrUpdateUserFromTokenAction extends Action
 
     public function handle(Auth0Service $service)
     {
-        $token = (object) $service->decodeJWT($this->token);
+        $token = $service->decodeJWT($this->token);
+
+        // DO NOT REMOVE LINE! Security measure.
+        // Identification is based on email.
+        // If the email is not verified we cannot verify that the account is from the mail owner.
+        // This also means that a user will always have 1 account per mail.
+        // Regardless of what identity provider he's using.
+        if(!$token->email_verified)
+            throw new EmailNotVerifiedException("Access Denied: email not verified.");
 
         $user = User::where('email', $token->email)->first();
 
@@ -33,7 +42,7 @@ class CreateOrUpdateUserFromTokenAction extends Action
                 "password" => Hash::make(Str::random())
             ]))->run();
 
-        if ($token->name === $user->name) {
+        if ($token->name !== $user->name) {
             $user->name = $token->name;
             $user->save();
         }

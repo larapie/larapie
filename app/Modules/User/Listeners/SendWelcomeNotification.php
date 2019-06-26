@@ -18,12 +18,4 @@ class SendWelcomeNotification extends QueuedListener
     {
         $event->getUser()->notify(new WelcomeNotification($event->getUser()));
     }
-
-    /**
-     * @param UserRegisteredEvent $event
-     * @param $exception
-     */
-    public function failed(UserRegisteredEvent $event, $exception): void
-    {
-    }
 }

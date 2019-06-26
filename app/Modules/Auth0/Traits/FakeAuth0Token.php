@@ -15,9 +15,47 @@ use Illuminate\Support\Facades\Config;
  */
 trait FakeAuth0Token
 {
-    protected function generateToken()
+    protected function generateToken($payload = [])
     {
-        $privateKey = <<<EOD
+        $domain = 'https://larapie.io';
+        $audience = $domain;
+        $kid = "a_random_kid";
+
+        $cacheHandler = $this->app->make(CacheHandler::class);
+        $cacheKey = $domain . '.well-known/jwks.json|' . $kid;
+        $cacheHandler->set($cacheKey, $this->getTokenPublicKey());
+
+        Config::set('laravel-auth0.domain', $domain);
+        Config::set('laravel-auth0.authorized_issuers', [$domain]);
+        Config::set('laravel-auth0.client_id', $domain);
+        Config::set('laravel-auth0.client_secret', 'some_secret');
+
+        $data = array(
+            "given_name" => "Lara",
+            "family_name" => "Pie",
+            "nickname" => "larapie",
+            "name" => "Lara Pie",
+            "picture" => "https://cdn4.iconfinder.com/data/icons/logos-3/256/laravel-512.png",
+            "email" => "info@larapie.io",
+            "email_verified" => true,
+            "iss" => $domain,
+            "sub" => "google-oauth2|102251668224605606587",
+            "aud" => $audience,
+            "iat" => Carbon::now()->unix(),
+            "exp" => Carbon::now()->addDay()->unix(),
+        );
+        $payload = array_merge($data, $payload);
+
+        $header = [
+            "kid" => $kid
+        ];
+
+        return JWT::encode($payload, $this->getTokenPrivateKey(), 'RS256', null, $header);
+    }
+
+    protected function getTokenPrivateKey()
+    {
+        return <<<EOD
 -----BEGIN RSA PRIVATE KEY-----
 MIICXAIBAAKBgQC8kGa1pSjbSYZVebtTRBLxBz5H4i2p/llLCrEeQhta5kaQu/Rn
 vuER4W8oDH3+3iuIYW4VQAzyqFpwuzjkDI+17t5t0tyazyZ8JXw+KgXTxldMPEL9
@@ -34,8 +72,11 @@ eUz9sHyD6vkgZzjtxXECQAkp4Xerf5TGfQXGXhxIX52yH+N2LtujCdkQZjXAsGdm
 B2zNzvrlgRmgBrklMTrMYgm1NPcW+bRLGcwgW2PTvNM=
 -----END RSA PRIVATE KEY-----
 EOD;
+    }
 
-        $publicKey = <<<EOD
+    protected function getTokenPublicKey()
+    {
+        return <<<EOD
 -----BEGIN PUBLIC KEY-----
 MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC8kGa1pSjbSYZVebtTRBLxBz5H
 4i2p/llLCrEeQhta5kaQu/RnvuER4W8oDH3+3iuIYW4VQAzyqFpwuzjkDI+17t5t
@@ -43,39 +84,5 @@ MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC8kGa1pSjbSYZVebtTRBLxBz5H
 ehde/zUxo6UvS7UrBQIDAQAB
 -----END PUBLIC KEY-----
 EOD;
-
-        $domain = 'https://larapie.io';
-        $audience = $domain;
-        $kid = "a_random_kid";
-
-        $cacheHandler = $this->app->make(CacheHandler::class);
-        $cacheKey = $domain . '.well-known/jwks.json|' . $kid;
-        $cacheHandler->set($cacheKey, $publicKey);
-
-        Config::set('laravel-auth0.domain', $domain);
-        Config::set('laravel-auth0.authorized_issuers', [$domain]);
-        Config::set('laravel-auth0.client_id', $domain);
-        Config::set('laravel-auth0.client_secret', 'some_secret');
-
-        $payload = array(
-            "given_name" => "Lara",
-            "family_name" => "Pie",
-            "nickname" => "larapie",
-            "name" => "Lara Pie",
-            "picture" => "https://cdn4.iconfinder.com/data/icons/logos-3/256/laravel-512.png",
-            "email" => "info@larapie.io",
-            "email_verified" => true,
-            "iss" => $domain,
-            "sub" => "google-oauth2|102251668224605606587",
-            "aud" => $audience,
-            "iat" => Carbon::now()->unix(),
-            "exp" => Carbon::now()->addDay()->unix(),
-        );
-
-        $header = [
-            "kid" => $kid
-        ];
-
-        return JWT::encode($payload, $privateKey, 'RS256', null, $header);
     }
 }

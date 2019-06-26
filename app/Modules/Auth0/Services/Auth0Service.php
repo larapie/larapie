@@ -11,6 +11,7 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 
 /**
  * Service that provides access to the Auth0 SDK.
+ * @codeCoverageIgnore
  */
 class Auth0Service
 {

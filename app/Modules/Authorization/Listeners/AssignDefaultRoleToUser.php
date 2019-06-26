@@ -13,12 +13,4 @@ class AssignDefaultRoleToUser
     {
         $event->getUser()->syncRoles(config('authorization.default_role'));
     }
-
-    /**
-     * @param UserRegisteredEvent $event
-     * @param $exception
-     */
-    public function failed(UserRegisteredEvent $event, $exception): void
-    {
-    }
 }

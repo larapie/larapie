@@ -37,6 +37,13 @@ class HttpKernel extends Kernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
+        'api:noauth' => [
+            'throttle:60,1',
+            'bindings',
+            'jsonheader',
+            'cors'
+        ],
+
         'api' => [
             'throttle:60,1',
             'bindings',

@@ -33,10 +33,4 @@ class Auth0ServiceProvider extends ServiceProvider
         // Override the current Auth0 Service Provider until they have resolved their caching issue
 
     }
-
-    public function boot(){
-        $this->app->singleton('auth0', function () {
-            return new Auth0Service();
-        });
-    }
 }

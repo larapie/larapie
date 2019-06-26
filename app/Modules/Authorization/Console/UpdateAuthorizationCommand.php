@@ -2,7 +2,6 @@
 
 namespace App\Modules\Authorization\Console;
 
-use App\Modules\Authorization\Manager\AuthorizationManager;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Spatie\Permission\Exceptions\PermissionDoesNotExist;
@@ -16,7 +15,7 @@ class UpdateAuthorizationCommand extends Command
      *
      * @var string
      */
-    protected $name = 'authorization:update';
+    protected $signature = 'authorization:update {--delete}';
 
     /**
      * The console command description.
@@ -50,14 +49,39 @@ class UpdateAuthorizationCommand extends Command
         $roles = Role::all()->pluck('name');
 
         //GET NEW PERMISSION & ROLES
-        $newPermissions = AuthorizationManager::getPermissions();
-        $newRoles = AuthorizationManager::getRoles();
+        $newPermissions = config('authorization.permissions');
+        $newRoles = config('authorization.roles');
 
         //SYNCHRONIZE PERMISSIONS
         $this->synchronizePermissions($permissions, $newPermissions);
 
         //SYNCHRONIZE ROLES & ROLEPERMISSIONS
         $this->synchronizeRoles($roles, $newRoles);
+
+        $this->syncWildcardRoles();
+    }
+
+    protected function syncWildcardRoles()
+    {
+        $roles = new Collection();
+
+        foreach (config('authorization.roles') as $role => $possibleWildcard) {
+            if ($possibleWildcard === "*")
+                $roles->add($role);
+        }
+        if ($roles->isNotEmpty()) {
+            $permissions = Permission::all()->pluck('name');
+
+            foreach ($roles as $role) {
+                $role = Role::findByName($role);
+                foreach ($permissions as $permission) {
+                    if (!$role->hasPermissionTo($permission))
+                        $this->info("Adding $permission permission to $role. Role is asssigned a wildcard");
+                }
+                $role->syncPermissions($permissions);
+            }
+        }
+
     }
 
     /**
@@ -78,20 +102,22 @@ class UpdateAuthorizationCommand extends Command
         }
 
         foreach ($permissions as $oldPermisson) {
-            $this->warn("Removing Permission: $oldPermisson does not exist anymore.");
-            Permission::findByName($oldPermisson)->delete();
+            if ($this->option('delete')) {
+                $this->warn("Removing Permission: $oldPermisson does not exist anymore.");
+                Permission::findByName($oldPermisson)->delete();
+            }
         }
     }
 
     /**
      * @param Permission[] | Collection $roles
-     * @param Collection $newRoles
+     * @param array $newRoles
      */
     protected function synchronizeRoles($roles, $newRoles)
     {
         foreach ($newRoles as $newRole => $newPermissions) {
             if ($newPermissions === '*') {
-                $newPermissions = AuthorizationManager::getPermissions();
+                $newPermissions = config('authorization.permissions');
             }
             if (is_numeric($key = $roles->search($newRole))) {
                 $roles->forget($key);
@@ -106,8 +132,17 @@ class UpdateAuthorizationCommand extends Command
         }
 
         foreach ($roles as $oldRole) {
-            $this->warn("Removing Role: $oldRole does not exist anymore.");
-            Role::findByName($oldRole)->delete();
+            if ($this->option('delete')) {
+                $this->warn("Removing Role: $oldRole does not exist anymore.");
+                Role::findByName($oldRole)->delete();
+            } else {
+                $this->warn("Removing permissions from $oldRole it does not actively exist anymore.");
+                $aRole = Role::findByName($oldRole);
+                foreach ($aRole->getAllPermissions() as $oldPermission) {
+                    $this->warn("Removing Permission $oldPermission->name from Role $oldRole.");
+                    $aRole->revokePermissionTo($oldPermission);
+                }
+            }
         }
     }
 
@@ -132,10 +167,10 @@ class UpdateAuthorizationCommand extends Command
 
     protected function givePermission(Role $role, $permissions)
     {
-        if(is_string($permissions)){
+        if (is_string($permissions)) {
             $permissions = [$permissions];
         }
-        foreach($permissions as $permission){
+        foreach ($permissions as $permission) {
             try {
                 Permission::findByName($permission);
             } catch (PermissionDoesNotExist $exception) {

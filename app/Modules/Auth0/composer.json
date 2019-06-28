@@ -2,7 +2,7 @@
     "name": "Auth0",
     "description": "",
     "require": {
-        "auth0/login": "^5.2"
+        "auth0/login": "^5.1"
     },
     "extra": {
         "laravel": {

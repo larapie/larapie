@@ -11,7 +11,7 @@ use Larapie\Core\Contracts\Policy;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
- * App\Modules\User\Models\User
+ * App\Modules\User\Models\User.
  *
  * @property int $id
  * @property string $name

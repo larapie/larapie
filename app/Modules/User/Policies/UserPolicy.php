@@ -8,7 +8,6 @@ use App\Modules\User\Permissions\UserPermission;
 
 class UserPolicy
 {
-
     /**
      * Determine if the given user can access the model.
      *

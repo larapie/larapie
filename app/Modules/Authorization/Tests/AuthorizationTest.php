@@ -52,10 +52,10 @@ class AuthorizationTest extends Test
     public function testUpdatePermissions()
     {
         Config::set('authorization.roles', [
-            "somenewrole" => [
-                "somepermission",
-                "somepermission2"
-            ]
+            'somenewrole' => [
+                'somepermission',
+                'somepermission2',
+            ],
         ]);
         $this->artisan('authorization:update', ['--delete' => true]);
 
@@ -63,14 +63,14 @@ class AuthorizationTest extends Test
         $this->assertNotNull(\Spatie\Permission\Models\Permission::findByName('somepermission'));
 
         Config::set('authorization.permissions', [
-            "somepermission",
-            "somepermission2"
+            'somepermission',
+            'somepermission2',
         ]);
 
         Config::set('authorization.roles', [
-            "somenewrole" => [
-                "somepermission2"
-            ]
+            'somenewrole' => [
+                'somepermission2',
+            ],
         ]);
 
         $this->artisan('authorization:update', ['--delete' => true]);
@@ -94,7 +94,7 @@ class AuthorizationTest extends Test
     public function testNonArrayRolePermission()
     {
         Config::set('authorization.roles', [
-            "somenewrole" => "somepermission",
+            'somenewrole' => 'somepermission',
         ]);
         $this->artisan('authorization:update', ['--delete' => true]);
 

@@ -16,8 +16,9 @@ class InjectApplicationJsonHeader
      */
     public function handle($request, Closure $next)
     {
-        if (!$request->expectsJson())
+        if (! $request->expectsJson()) {
             $request->headers->set('Accept', 'application/json');
+        }
 
         return $next($request);
     }

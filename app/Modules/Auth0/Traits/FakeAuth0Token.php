@@ -7,7 +7,6 @@ use Carbon\Carbon;
 use Firebase\JWT\JWT;
 use Illuminate\Support\Facades\Config;
 
-
 /**
  * This Trait is intended to be used for testing only!
  * This changes the auth0 config parameters
@@ -19,10 +18,10 @@ trait FakeAuth0Token
     {
         $domain = 'https://larapie.io';
         $audience = $domain;
-        $kid = "a_random_kid";
+        $kid = 'a_random_kid';
 
         $cacheHandler = $this->app->make(CacheHandler::class);
-        $cacheKey = $domain . '.well-known/jwks.json|' . $kid;
+        $cacheKey = $domain.'.well-known/jwks.json|'.$kid;
         $cacheHandler->set($cacheKey, $this->getTokenPublicKey());
 
         Config::set('laravel-auth0.domain', $domain);
@@ -30,24 +29,24 @@ trait FakeAuth0Token
         Config::set('laravel-auth0.client_id', $domain);
         Config::set('laravel-auth0.client_secret', 'some_secret');
 
-        $data = array(
-            "given_name" => "Lara",
-            "family_name" => "Pie",
-            "nickname" => "larapie",
-            "name" => "Lara Pie",
-            "picture" => "https://cdn4.iconfinder.com/data/icons/logos-3/256/laravel-512.png",
-            "email" => "info@larapie.io",
-            "email_verified" => true,
-            "iss" => $domain,
-            "sub" => "google-oauth2|102251668224605606587",
-            "aud" => $audience,
-            "iat" => Carbon::now()->unix(),
-            "exp" => Carbon::now()->addDay()->unix(),
-        );
+        $data = [
+            'given_name' => 'Lara',
+            'family_name' => 'Pie',
+            'nickname' => 'larapie',
+            'name' => 'Lara Pie',
+            'picture' => 'https://cdn4.iconfinder.com/data/icons/logos-3/256/laravel-512.png',
+            'email' => 'info@larapie.io',
+            'email_verified' => true,
+            'iss' => $domain,
+            'sub' => 'google-oauth2|102251668224605606587',
+            'aud' => $audience,
+            'iat' => Carbon::now()->unix(),
+            'exp' => Carbon::now()->addDay()->unix(),
+        ];
         $payload = array_merge($data, $payload);
 
         $header = [
-            "kid" => $kid
+            'kid' => $kid,
         ];
 
         return JWT::encode($payload, $this->getTokenPrivateKey(), 'RS256', null, $header);
@@ -55,7 +54,7 @@ trait FakeAuth0Token
 
     protected function getTokenPrivateKey()
     {
-        return <<<EOD
+        return <<<'EOD'
 -----BEGIN RSA PRIVATE KEY-----
 MIICXAIBAAKBgQC8kGa1pSjbSYZVebtTRBLxBz5H4i2p/llLCrEeQhta5kaQu/Rn
 vuER4W8oDH3+3iuIYW4VQAzyqFpwuzjkDI+17t5t0tyazyZ8JXw+KgXTxldMPEL9
@@ -76,7 +75,7 @@ EOD;
 
     protected function getTokenPublicKey()
     {
-        return <<<EOD
+        return <<<'EOD'
 -----BEGIN PUBLIC KEY-----
 MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC8kGa1pSjbSYZVebtTRBLxBz5H
 4i2p/llLCrEeQhta5kaQu/RnvuER4W8oDH3+3iuIYW4VQAzyqFpwuzjkDI+17t5t

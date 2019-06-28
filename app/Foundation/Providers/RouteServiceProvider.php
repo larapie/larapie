@@ -17,10 +17,10 @@ class RouteServiceProvider extends \Larapie\Core\Providers\RouteServiceProvider
             base_path(config('larapie.foundation.path').'/Routes/api.php'),
             config('larapie.foundation.namespace').'\\Http\\Controllers\Api'
         );
-
     }
 
-    protected function mapApiNoAuth(string $prefix, string $path, string $namespace){
+    protected function mapApiNoAuth(string $prefix, string $path, string $namespace)
+    {
         Route::middleware('api:noauth')
             ->domain(config('larapie.api_url') ?? config('app.url'))
             ->prefix($prefix = config('larapie.api_url') === null ? 'api/'.$prefix : $prefix)

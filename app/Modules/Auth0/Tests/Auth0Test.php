@@ -20,7 +20,7 @@ class Auth0Test extends Test
     public function testCreateUserFromToken()
     {
         $action = new CreateOrUpdateUserFromTokenAction([
-            "token" => $this->generateToken()
+            'token' => $this->generateToken(),
         ]);
 
         $this->expectsEvents(UserRegisteredEvent::class);
@@ -33,31 +33,30 @@ class Auth0Test extends Test
     {
         $this->expectException(ValidationException::class);
         (new CreateOrUpdateUserFromTokenAction([
-            "token" => null
+            'token' => null,
         ]))->run();
     }
 
     public function testUserNameGetsUpdated()
     {
         $user = (new CreateOrUpdateUserFromTokenAction([
-            "token" => $this->generateToken()
+            'token' => $this->generateToken(),
         ]))->run();
 
         (new CreateOrUpdateUserFromTokenAction([
-            "token" => $this->generateToken(['name' => 'newname'])
+            'token' => $this->generateToken(['name' => 'newname']),
         ]))->run();
 
         $this->assertEquals('newname', User::find($user->id)->name);
-
     }
 
     public function testAuthorizedRoute()
     {
         $response = $this->http('GET', '/v1/auth0/authorized', [], [
-            'Authorization' => 'Bearer ' . $this->generateToken(['email' => 'test@test.com'])
+            'Authorization' => 'Bearer '.$this->generateToken(['email' => 'test@test.com']),
         ]);
 
-        $this->assertNotNull(User::where('email','test@test.com')->first());
+        $this->assertNotNull(User::where('email', 'test@test.com')->first());
 
         $this->assertTrue($response->decode());
     }
@@ -65,7 +64,7 @@ class Auth0Test extends Test
     public function testInvalidToken()
     {
         $response = $this->http('GET', '/v1/auth0/authorized', [], [
-            'Authorization' => 'Bearer ' . 'qsdgqgsd'
+            'Authorization' => 'Bearer '.'qsdgqgsd',
         ]);
         $response->assertStatus(401);
     }
@@ -73,15 +72,15 @@ class Auth0Test extends Test
     public function testFakeToken()
     {
         $token = $this->generateToken(['name' => 'somename']);
-        $decoded = JWT::decode($token, $this->getTokenPublicKey(), array('RS256'));
-        $this->assertArrayHasKey('name', (array)$decoded);
+        $decoded = JWT::decode($token, $this->getTokenPublicKey(), ['RS256']);
+        $this->assertArrayHasKey('name', (array) $decoded);
         $this->assertEquals('somename', $decoded->name);
     }
 
     public function testEmailNotVerifiedThrowsError()
     {
         $action = new CreateOrUpdateUserFromTokenAction([
-            "token" => $this->generateToken(['email_verified' => false])
+            'token' => $this->generateToken(['email_verified' => false]),
         ]);
 
         $this->expectException(EmailNotVerifiedException::class);
@@ -91,9 +90,8 @@ class Auth0Test extends Test
     public function testUnverifiedEmailThroughHttp()
     {
         $response = $this->http('GET', '/v1/auth0/authorized', [], [
-            'Authorization' => 'Bearer ' . $this->generateToken(['email_verified' => false])
+            'Authorization' => 'Bearer '.$this->generateToken(['email_verified' => false]),
         ]);
         $response->assertStatus(401);
     }
-
 }

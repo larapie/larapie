@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Modules\User\Permissions;
-
 
 interface UserPermission
 {

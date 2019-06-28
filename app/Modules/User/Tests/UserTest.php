@@ -19,11 +19,12 @@ class UserTest extends Test
         $this->assertTrue(true);
     }
 
-    public function testCreateUserAction(){
+    public function testCreateUserAction()
+    {
         $action = new CreateUserAction([
-            "name" => 'a random name',
-            "email" => "gsqdgqdsqgsd@gmail.com",
-            "password" => Hash::make(Str::random())
+            'name' => 'a random name',
+            'email' => 'gsqdgqdsqgsd@gmail.com',
+            'password' => Hash::make(Str::random()),
         ]);
 
         $this->expectsEvents(UserRegisteredEvent::class);

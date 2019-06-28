@@ -3,7 +3,7 @@
     "description": "The Larapie Foundation.",
     "license": "MIT",
     "require": {
-        "larapie/core": "^1.0",
+        "larapie/core": "^1.2.21",
         "larapie/guard": "^1.0",
         "larapie/transformer": "^1.0"
     },

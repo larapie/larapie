@@ -29,12 +29,19 @@ return [
     |
     */
     'permissions' => [
+        \App\Modules\Authorization\Permissions\AuthorizationPermission::INDEX_ROLES,
+        \App\Modules\Authorization\Permissions\AuthorizationPermission::DELETE_PERMISSION,
         \App\Modules\Authorization\Permissions\AuthorizationPermission::CREATE_PERMISSION,
         \App\Modules\Authorization\Permissions\AuthorizationPermission::CREATE_ROLE,
+        \App\Modules\Authorization\Permissions\AuthorizationPermission::DELETE_ROLE,
+        \App\Modules\Authorization\Permissions\AuthorizationPermission::ASSIGN_PERMISSION_TO_ROLE,
+        \App\Modules\Authorization\Permissions\AuthorizationPermission::ASSIGN_PERMISSION_TO_USER,
+        \App\Modules\Authorization\Permissions\AuthorizationPermission::ASSIGN_ROLE_TO_USER,
 
         \App\Modules\User\Permissions\UserPermission::CREATE,
         \App\Modules\User\Permissions\UserPermission::UPDATE,
         \App\Modules\User\Permissions\UserPermission::DELETE,
+
     ],
 
     /*
@@ -55,5 +62,6 @@ return [
             \App\Modules\User\Permissions\UserPermission::DELETE
         ],
         Roles::ADMIN => '*',
+        Roles::GUEST => []
     ],
 ];

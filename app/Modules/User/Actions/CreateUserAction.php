@@ -4,8 +4,7 @@ namespace App\Modules\User\Actions;
 
 use App\Modules\User\Events\UserRegisteredEvent;
 use App\Modules\User\Models\User;
-use Hash;
-use Lorisleiva\Actions\Action;
+use App\Packages\Actions\Abstracts\Action;
 
 class CreateUserAction extends Action
 {
@@ -19,8 +18,10 @@ class CreateUserAction extends Action
     }
 
     public function handle(){
-        return tap(User::create($this->validated()),function ($user){
-            event(new UserRegisteredEvent($user));
-        });
+        return User::create($this->validated());
+    }
+
+    protected function onSuccess(User $user){
+        event(new UserRegisteredEvent($user));
     }
 }

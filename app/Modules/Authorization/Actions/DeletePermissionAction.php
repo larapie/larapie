@@ -17,17 +17,19 @@ class DeletePermissionAction extends Action
     public function rules()
     {
         return [
-            "permission" => 'required|string'
+            'permission' => 'required|string',
         ];
     }
 
-    public function handle(){
+    public function handle()
+    {
         return tap(Permission::findByName($this->permission), function (Permission $permission) {
             $permission->delete();
         });
     }
 
-    protected function onSuccess(Permission $permission){
+    protected function onSuccess(Permission $permission)
+    {
         event(new PermissionCreatedEvent($permission));
     }
 }

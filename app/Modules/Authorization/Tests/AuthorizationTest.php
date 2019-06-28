@@ -6,19 +6,18 @@ use App\Modules\Authorization\Actions\AssignPermissionsToRoleAction;
 use App\Modules\Authorization\Actions\AssignPermissionToUserAction;
 use App\Modules\Authorization\Actions\GetRolesAction;
 use App\Modules\Authorization\Contracts\Roles;
+use App\Modules\Authorization\Models\Permission;
+use App\Modules\Authorization\Models\Role;
 use App\Modules\Authorization\Permissions\AuthorizationPermission;
 use App\Modules\Authorization\Traits\ActAuthorized;
 use App\Modules\User\Events\UserRegisteredEvent;
 use App\Modules\User\Models\User;
 use App\Packages\Actions\Traits\ApiActionRunner;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Config;
 use Larapie\Core\Base\Test;
 use Larapie\Core\Traits\ResetDatabase;
 use Spatie\Permission\Exceptions\PermissionDoesNotExist;
-use \App\Modules\Authorization\Models\Permission;
-use \App\Modules\Authorization\Models\Role;
 
 class AuthorizationTest extends Test
 {
@@ -110,7 +109,7 @@ class AuthorizationTest extends Test
 
         $action = new AssignPermissionToUserAction([
             'user_id' => $this->user()->id,
-            'permissions' => $permissionName
+            'permissions' => $permissionName,
         ]);
         $action->run();
 
@@ -118,7 +117,6 @@ class AuthorizationTest extends Test
 
         $this->user()->revokePermissionTo(AuthorizationPermission::ASSIGN_PERMISSION_TO_USER);
         $this->assertFalse($this->user()->hasPermissionTo(AuthorizationPermission::ASSIGN_PERMISSION_TO_USER));
-
 
         $this->expectException(AuthorizationException::class);
         $action->actingAs($this->user());
@@ -129,7 +127,7 @@ class AuthorizationTest extends Test
     {
         $this->user()->givePermissionTo(AuthorizationPermission::ASSIGN_PERMISSION_TO_ROLE);
 
-        $permissionNames = ['somerandompermission', 'somerandompermission2',];
+        $permissionNames = ['somerandompermission', 'somerandompermission2'];
         $roleName = 'somenewrole';
 
         Role::create(['name' => $roleName]);
@@ -138,7 +136,7 @@ class AuthorizationTest extends Test
 
         $action = new AssignPermissionsToRoleAction([
             'role' => $roleName,
-            'permissions' => $permissionNames
+            'permissions' => $permissionNames,
         ]);
         $action->run();
 
@@ -148,11 +146,10 @@ class AuthorizationTest extends Test
         $this->user()->revokePermissionTo(AuthorizationPermission::ASSIGN_PERMISSION_TO_ROLE);
         $this->assertFalse($this->user()->hasPermissionTo(AuthorizationPermission::ASSIGN_PERMISSION_TO_ROLE));
 
-
         $this->expectException(AuthorizationException::class);
         $action = new AssignPermissionsToRoleAction([
             'role' => $roleName,
-            'permissions' => $permissionNames[0]
+            'permissions' => $permissionNames[0],
         ]);
         $action->actingAs($this->user());
         $action->run();
@@ -176,6 +173,4 @@ class AuthorizationTest extends Test
         $this->assertContains(Role::MEMBER, $roleNames);
         $this->assertContains(Role::GUEST, $roleNames);
     }
-
-
 }

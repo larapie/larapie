@@ -1,9 +1,7 @@
 <?php
 
-
 namespace App\Modules\Authorization\Actions;
 
-use App\Modules\Authorization\Events\PermissionCreatedEvent;
 use App\Modules\Authorization\Events\RoleDeletedEvent;
 use App\Modules\Authorization\Models\Role;
 use App\Modules\Authorization\Permissions\AuthorizationPermission;
@@ -19,7 +17,7 @@ class DeleteRoleAction extends Action
     public function rules()
     {
         return [
-            "role" => 'required|string'
+            'role' => 'required|string',
         ];
     }
 

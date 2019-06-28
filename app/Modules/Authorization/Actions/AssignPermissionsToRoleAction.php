@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Modules\Authorization\Actions;
 
 use App\Modules\Authorization\Models\Permission;
@@ -18,17 +17,17 @@ class AssignPermissionsToRoleAction extends Action
     public function rules()
     {
         return [
-            "permissions" => 'required',
-            "permissions.*" => ['string', function ($attribute, $permission, $fail) {
-                if (!Permission::exists($permission)) {
-                    $fail('Permission' . $permission . ' does not exist.');
+            'permissions' => 'required',
+            'permissions.*' => ['string', function ($attribute, $permission, $fail) {
+                if (! Permission::exists($permission)) {
+                    $fail('Permission'.$permission.' does not exist.');
                 }
             }],
-            "role" => ['required', 'string', function ($attribute, $role, $fail) {
-                if (!Role::exists($role)) {
-                    $fail('Role' . $attribute . ' does not exist.');
+            'role' => ['required', 'string', function ($attribute, $role, $fail) {
+                if (! Role::exists($role)) {
+                    $fail('Role'.$attribute.' does not exist.');
                 }
-            }]
+            }],
         ];
     }
 

@@ -9,13 +9,12 @@
 namespace App\Modules\Authorization\Transformers;
 
 use App\Modules\Authorization\Models\Role;
-use Illuminate\Database\Eloquent\Collection;
 use Larapie\Transformer\Transformer;
 
 class RoleTransformer extends Transformer
 {
     public $include = [
-        'permissions'
+        'permissions',
     ];
 
     /**

@@ -11,7 +11,6 @@ use Larapie\Core\Contracts\Listeners;
 class UserRegisteredEvent extends Registered implements Listeners
 {
     /**
-     *
      * The authenticated user.
      *
      * @var User

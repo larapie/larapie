@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Modules\Authorization\Actions;
 
 use App\Modules\Authorization\Events\PermissionCreatedEvent;
@@ -18,23 +17,25 @@ class CreatePermissionAction extends Action
     public function rules()
     {
         return [
-            "permission" => 'required|string'
+            'permission' => 'required|string',
         ];
     }
 
     public function handle()
     {
         $permission = [
-            "name" => $this->permission
+            'name' => $this->permission,
         ];
 
-        if ($this->exists('guard'))
+        if ($this->exists('guard')) {
             $permission['guard'] = $this->guard;
+        }
 
         return Permission::create($permission);
     }
 
-    protected function onSuccess(Permission $permission){
+    protected function onSuccess(Permission $permission)
+    {
         event(new PermissionCreatedEvent($permission));
     }
 }

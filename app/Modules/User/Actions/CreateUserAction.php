@@ -8,7 +8,8 @@ use App\Packages\Actions\Abstracts\Action;
 
 class CreateUserAction extends Action
 {
-    public function rules(){
+    public function rules()
+    {
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -17,11 +18,13 @@ class CreateUserAction extends Action
         ];
     }
 
-    public function handle(){
+    public function handle()
+    {
         return User::create($this->validated());
     }
 
-    protected function onSuccess(User $user){
+    protected function onSuccess(User $user)
+    {
         event(new UserRegisteredEvent($user));
     }
 }

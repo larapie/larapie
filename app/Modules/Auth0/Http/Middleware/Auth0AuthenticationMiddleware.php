@@ -23,11 +23,6 @@ class Auth0AuthenticationMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $user = factory(User::class)->create();
-        $user->assignRole(Role::ADMIN);
-        \Auth::login($user);
-
-        return $next($request);
         try {
             $user = (new CreateOrUpdateUserFromTokenAction([
                 'token' => $request->bearerToken(),

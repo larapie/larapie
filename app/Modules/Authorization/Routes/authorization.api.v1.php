@@ -6,5 +6,3 @@ Route::patch('/roles/{role}', \App\Modules\Authorization\Actions\AssignPermissio
 Route::delete('/roles/{role}', \App\Modules\Authorization\Actions\DeleteRoleAction::class);
 
 Route::post('/permissions', \App\Modules\Authorization\Actions\CreatePermissionAction::class);
-
-

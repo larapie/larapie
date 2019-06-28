@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Modules\Authorization\Models;
-
 
 use App\Modules\Authorization\Contracts\Roles;
 use Spatie\Permission\Guard;
@@ -10,7 +8,7 @@ use Spatie\Permission\Guard;
 class Role extends \Spatie\Permission\Models\Role implements Roles
 {
     /**
-     * Check if a role exists
+     * Check if a role exists.
      *
      * @param string $name
      * @param string|null $guardName
@@ -24,7 +22,7 @@ class Role extends \Spatie\Permission\Models\Role implements Roles
         $role = static::where('name', $name)->where('guard_name', $guardName)->first();
 
         if (! $role) {
-           return false;
+            return false;
         }
 
         return true;

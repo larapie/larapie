@@ -18,18 +18,19 @@ class AssignPermissionToUserAction extends Action
     public function rules()
     {
         return [
-            "permissions" => 'required',
-            "permissions.*" => ['string', function ($attribute, $permission, $fail) {
-                if (!Permission::exists($permission)) {
-                    $fail('Permission' . $permission . ' does not exist.');
+            'permissions' => 'required',
+            'permissions.*' => ['string', function ($attribute, $permission, $fail) {
+                if (! Permission::exists($permission)) {
+                    $fail('Permission'.$permission.' does not exist.');
                 }
             }],
-            "user_id" => 'exists:users,id'
+            'user_id' => 'exists:users,id',
         ];
     }
 
-    protected function withValidator(Validator $validator){
-        return $validator->sometimes('user','required', function ($input){
+    protected function withValidator(Validator $validator)
+    {
+        return $validator->sometimes('user', 'required', function ($input) {
             return $input->user_id === null;
         });
     }

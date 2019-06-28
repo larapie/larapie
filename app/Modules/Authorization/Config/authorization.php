@@ -60,6 +60,6 @@ return [
             \App\Modules\User\Permissions\UserPermission::DELETE,
         ],
         Roles::ADMIN => '*',
-        Roles::GUEST => []
+        Roles::GUEST => [],
     ],
 ];

@@ -3,13 +3,13 @@
 namespace App\Modules\Auth0\Actions;
 
 use App\Modules\Auth0\Exceptions\EmailNotVerifiedException;
-use App\Modules\Auth0\Services\Auth0Service;
 use App\Modules\User\Actions\CreateUserAction;
 use App\Modules\User\Models\User;
-use App\Packages\Actions\Abstracts\Action;
+use Auth0\Login\Auth0Service;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Larapie\Actions\Action;
 
 class CreateOrUpdateUserFromTokenAction extends Action
 {

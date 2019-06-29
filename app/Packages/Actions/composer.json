@@ -1,12 +1,12 @@
 {
-    "name": "Cors",
+    "name": "Actions",
     "require": {
-        "lorisleiva/laravel-actions": "^0.1"
+        "larapie/actions": "^1.4"
     },
     "extra": {
         "laravel": {
             "dont-discover": [
-                "lorisleiva/laravel-actions"
+                "larapie/actions"
             ]
         }
     }

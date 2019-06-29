@@ -5,7 +5,7 @@ namespace App\Modules\Authorization\Actions;
 use App\Modules\Authorization\Models\Permission;
 use App\Modules\Authorization\Models\Role;
 use App\Modules\Authorization\Permissions\AuthorizationPermission;
-use App\Packages\Actions\Abstracts\Action;
+use Larapie\Actions\Action;
 
 class AssignPermissionsToRoleAction extends Action
 {

@@ -18,18 +18,8 @@ class Auth0ServiceProvider extends ServiceProvider
     {
         $this->app->register(\Auth0\Login\LoginServiceProvider::class);
 
-        $this->app->bind(
-            CacheHandler::class,
-            function () {
-                static $cacheWrapper = null;
-                if ($cacheWrapper === null) {
-                    $cache = Cache::store();
-                    $cacheWrapper = new LaravelCacheWrapper($cache);
-                }
-
-                return $cacheWrapper;
+        $this->app->bind(CacheHandler::class, function () {
+                return new LaravelCacheWrapper(Cache::store());
             });
-
-        // Override the current Auth0 Service Provider until they have resolved their caching issue
     }
 }

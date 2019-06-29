@@ -40,7 +40,7 @@ trait FakeAuth0Token
             'iss' => $domain,
             'sub' => 'google-oauth2|102251668224605606587',
             'aud' => $audience,
-            'iat' => Carbon::now()->unix(),
+            'iat' => Carbon::now()->subHour()->unix(),
             'exp' => Carbon::now()->addDay()->unix(),
         ];
         $payload = array_merge($data, $payload);

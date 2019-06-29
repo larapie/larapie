@@ -4,7 +4,7 @@ namespace App\Modules\User\Actions;
 
 use App\Modules\User\Events\UserRegisteredEvent;
 use App\Modules\User\Models\User;
-use App\Packages\Actions\Abstracts\Action;
+use Larapie\Actions\Action;
 
 class CreateUserAction extends Action
 {

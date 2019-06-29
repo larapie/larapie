@@ -5,7 +5,7 @@ namespace App\Modules\Authorization\Actions;
 use App\Modules\Authorization\Events\PermissionCreatedEvent;
 use App\Modules\Authorization\Models\Permission;
 use App\Modules\Authorization\Permissions\AuthorizationPermission;
-use App\Packages\Actions\Abstracts\Action;
+use Larapie\Actions\Action;
 
 class CreatePermissionAction extends Action
 {

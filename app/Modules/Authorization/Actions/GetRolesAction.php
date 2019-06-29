@@ -5,7 +5,7 @@ namespace App\Modules\Authorization\Actions;
 use App\Modules\Authorization\Models\Role;
 use App\Modules\Authorization\Permissions\AuthorizationPermission;
 use App\Modules\Authorization\Transformers\RoleTransformer;
-use App\Packages\Actions\Abstracts\Action;
+use Larapie\Actions\Action;
 
 class GetRolesAction extends Action
 {

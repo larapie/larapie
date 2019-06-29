@@ -19,6 +19,7 @@ class HttpKernel extends Kernel
         \App\Foundation\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Foundation\Http\Middleware\TrustProxies::class,
+        \App\Foundation\Http\Middleware\InjectApplicationJsonHeader::class
     ];
 
     /**
@@ -40,14 +41,12 @@ class HttpKernel extends Kernel
         'api:noauth' => [
             'throttle:60,1',
             'bindings',
-            'jsonheader',
             'cors',
         ],
 
         'api' => [
             'throttle:60,1',
             'bindings',
-            'jsonheader',
             'cors',
             'auth0',
         ],
@@ -72,7 +71,6 @@ class HttpKernel extends Kernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
 
         'cors' => \Barryvdh\Cors\HandleCors::class,
-        'jsonheader'=> \App\Foundation\Http\Middleware\InjectApplicationJsonHeader::class,
         'auth0' => \App\Modules\Auth0\Middleware\Auth0AuthenticationMiddleware::class,
     ];
 

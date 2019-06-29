@@ -13,6 +13,6 @@ class ActionServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->register(\Lorisleiva\Actions\ActionServiceProvider::class);
+        $this->app->register(\Larapie\Actions\LarapieActionServiceProvider::class);
     }
 }

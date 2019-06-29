@@ -27,8 +27,6 @@ class FoundationTest extends Test
 
         $output = $response->decodeResponseJson();
 
-        $this->assertArrayHasKey('error', $output);
-        $this->assertArrayHasKeys(['message', 'status_code'], $output['error']);
-        $this->assertEquals(404, $output['error']['status_code']);
+        $this->assertArrayHasKey('message', $output);
     }
 }

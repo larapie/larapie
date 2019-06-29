@@ -3,7 +3,7 @@
 namespace App\Packages\Actions\Traits;
 
 use Illuminate\Http\Request;
-use Lorisleiva\Actions\Action;
+use Larapie\Actions\Action;
 
 trait ApiActionRunner
 {

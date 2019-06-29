@@ -5,7 +5,7 @@ namespace App\Modules\Authorization\Actions;
 use App\Modules\Authorization\Models\Permission;
 use App\Modules\Authorization\Permissions\AuthorizationPermission;
 use App\Modules\User\Models\User;
-use App\Packages\Actions\Abstracts\Action;
+use Larapie\Actions\Action;
 use Illuminate\Contracts\Validation\Validator;
 
 class AssignPermissionToUserAction extends Action

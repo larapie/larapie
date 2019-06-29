@@ -4,8 +4,6 @@ namespace App\Modules\Auth0\Middleware;
 
 use App\Modules\Auth0\Actions\CreateOrUpdateUserFromTokenAction;
 use App\Modules\Auth0\Exceptions\EmailNotVerifiedException;
-use App\Modules\Authorization\Models\Role;
-use App\Modules\User\Models\User;
 use Auth0\SDK\Exception\CoreException;
 use Auth0\SDK\Exception\InvalidTokenException;
 use Closure;

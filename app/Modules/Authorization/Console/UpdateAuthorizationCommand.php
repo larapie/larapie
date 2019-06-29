@@ -169,7 +169,7 @@ class UpdateAuthorizationCommand extends Command
         collect($permissions)
             ->flatten()
             ->filter(function ($permissionName) {
-                return $permissionName !== '*';
+                return ! $this->permissionsHasWildcard($permissionName);
             })
             ->filter(function ($permissionName) use ($role) {
                 return ! $role->hasPermissionTo($permissionName);
@@ -183,7 +183,6 @@ class UpdateAuthorizationCommand extends Command
     protected function createRole(string $roleName): Role
     {
         $this->info('Role '.strtoupper($roleName).' does not exist. Creating role..');
-
         return Role::create(['name' => $roleName]);
     }
 
@@ -202,7 +201,6 @@ class UpdateAuthorizationCommand extends Command
     protected function createPermission(string $permissionName)
     {
         $this->info("Permission $permissionName does not exist. Creating Permission..");
-
         return Permission::create(['name' => $permissionName]);
     }
 

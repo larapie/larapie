@@ -32,7 +32,7 @@ abstract class Action extends \Lorisleiva\Actions\Action
 
     protected function failHook(Throwable $exception)
     {
-        if (! method_exists($this, 'onFail')) {
+        if (!method_exists($this, 'onFail')) {
             throw $exception;
         }
         $this->resolveAndCall($this, 'onFail', compact('exception'));
@@ -40,40 +40,55 @@ abstract class Action extends \Lorisleiva\Actions\Action
     }
 
     /* Extensive resolving to ensure you always get the proper object as parameter */
-    protected function successHook($value)
+    protected function successHook($result)
     {
         if (method_exists($this, 'onSuccess')) {
             try {
                 $parameters = (new \ReflectionMethod($this, 'onSuccess'))->getParameters();
-                $extraParameter = null;
-
-                //BIND the value to the first parameter with the correct type
-                foreach ($parameters as $parameter) {
-                    if ($parameter->hasType() && is_a($value, $parameter->getClass()->getName())) {
-                        $extraParameter = [$parameter->getName() => $value];
-                        break;
-                    }
-                }
-
-                //BIND the value to the parameter with the same name
-                //IF there's not a parameter with the same name as the value type
-                //CHOOSE the first value that doesn't have a type
-                if ($extraParameter === null) {
-                    foreach ($parameters as $parameter) {
-                        if (! $parameter->hasType()) {
-                            if ($extraParameter === null) {
-                                $extraParameter = [$parameter->getName() => $value];
-                            } elseif (strcasecmp(get_short_class_name($value), $parameter->getName()) == 0) {
-                                $extraParameter = [$parameter->getName() => $value];
-                                break;
-                            }
-                        }
-                    }
-                }
+                $extraParameter = $this->resolveParameter($parameters, $result);
             } catch (\ReflectionException $e) {
+
             }
             $this->resolveAndCall($this, 'onSuccess', $extraParameter ?? []);
         }
+    }
+
+    private function resolveParameter($parameters, $result)
+    {
+        $extraParameter = null;
+
+        //BIND the value to the first parameter with the correct type
+        collect($parameters)
+            ->filter(function (\ReflectionParameter $parameter) {
+                return $parameter->hasType();
+            })
+            ->filter(function (\ReflectionParameter $parameter) use ($result) {
+                return is_a($result, $parameter->getClass()->getName());
+            })
+            ->each(function (\ReflectionParameter $parameter) use ($result, &$extraParameter) {
+                $extraParameter = [$parameter->getName() => $result];
+                return false;
+            });
+
+        if (isset($extraParameter))
+            return $extraParameter;
+
+        //BIND the value to the parameter with the same name
+        //IF there's not a parameter with the same name as the value type
+        //CHOOSE the first value that doesn't have a type
+        collect($parameters)
+            ->filter(function (\ReflectionParameter $parameter) {
+                return !$parameter->hasType();
+            })
+            ->each(function (\ReflectionParameter $parameter) use ($result, &$extraParameter) {
+                if ($extraParameter === null) {
+                    $extraParameter = [$parameter->getName() => $result];
+                } elseif (strcasecmp(get_short_class_name($result), $parameter->getName()) == 0) {
+                    $extraParameter = [$parameter->getName() => $result];
+                    return false;
+                }
+            });
+        return $extraParameter;
     }
 
     public static function execute(array $data = [])

@@ -26,7 +26,7 @@ class ConsoleKernel extends Kernel
         /*
          *
          * DO NOT REMOVE THIS.
-         * Defines the schedules from the modules.
+         * Registers the module schedules.
          *
          */
         parent::schedule($schedule);

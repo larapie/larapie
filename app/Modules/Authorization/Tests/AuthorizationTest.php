@@ -27,10 +27,53 @@ class AuthorizationTest extends Test
 
     protected $roles = Roles::MEMBER;
 
-    public function testUpdateAuthorization()
+    public function testAllRolesGenerated()
     {
-        $roles = Role::all()->pluck('name')->toArray();
-        $this->assertEquals($roles, array_keys(config('authorization.roles')));
+        Role::all()->pluck('name')->each(function (string $roleName) {
+            $this->assertContains($roleName, array_keys(config('authorization.roles')));
+        });
+    }
+
+    public function testAllPermissionsGenerated()
+    {
+        $permissionNames = collect(config('authorization.roles'))
+            ->flatten()
+            ->merge(config('authorization.permissions'))
+            ->filter(function (string $permissionName) {
+                return $permissionName !== '*';
+            });
+
+        $this->assertFalse(Permission::exists('*'));
+
+        Permission::all()
+            ->pluck('name')
+            ->each(function (string $permissionName) use ($permissionNames) {
+                $this->assertContains($permissionName, $permissionNames);
+            });
+    }
+
+    public function testRolesHaveCorrectPermissions()
+    {
+        $roles = collect(config('authorization.roles'));
+
+        //TEST NORMAL ROLE-PERMISSIONS
+        $roles->filter(function ($permissionNames) {
+            return $permissionNames !== '*';
+        })->each(function ($permissionNames, $roleName) {
+            $this->assertTrue(Role::exists($roleName));
+            foreach ($permissionNames as $permissionName) {
+                $this->assertTrue(Role::findByName($roleName)->hasPermissionTo($permissionName));
+            }
+        });
+
+        //TEST WILDCARD ROLE-PERMISSIONS
+        $roles->filter(function ($permissionName) {
+            return $permissionName === '*';
+        })->each(function ($wildcard, $roleName) {
+            Permission::all()->pluck('name')->each(function (string $permissionName) use ($roleName) {
+                $this->assertTrue($role = Role::findByName($roleName)->hasPermissionTo($permissionName));
+            });
+        });
     }
 
     public function testAdminAssignmentRole()
@@ -48,7 +91,7 @@ class AuthorizationTest extends Test
         $this->assertTrue($user->hasRole(config('authorization.default_role')));
     }
 
-    public function testUpdatePermissions()
+    public function testUpdateAdjustedPermissions()
     {
         Config::set('authorization.roles', [
             'somenewrole' => [
@@ -69,13 +112,15 @@ class AuthorizationTest extends Test
         Config::set('authorization.roles', [
             'somenewrole' => [
                 'somepermission2',
+                'somepermission3'
             ],
         ]);
 
         $this->artisan('authorization:update', ['--delete' => true]);
 
         $this->assertFalse(Role::findByName('somenewrole')->hasPermissionTo('somepermission'));
-
+        $this->assertTrue(Role::findByName('somenewrole')->hasPermissionTo('somepermission2'));
+        $this->assertTrue(Role::findByName('somenewrole')->hasPermissionTo('somepermission3'));
         Config::set('authorization.permissions', []);
 
         Config::set('authorization.roles', []);

@@ -19,7 +19,7 @@ php artisan larapie:install
 
 Open the .env file and enter your database details then run:
 ```php
-php artisan db:reset
+php artisan db:reset --seed
 ```
 
 WARNING:

@@ -2,7 +2,7 @@
 
 namespace App\Modules\Authorization\Actions;
 
-use App\Modules\Authorization\Events\PermissionCreatedEvent;
+use App\Modules\Authorization\Events\PermissionDeletedEvent;
 use App\Modules\Authorization\Models\Permission;
 use App\Modules\Authorization\Permissions\AuthorizationPermission;
 use App\Packages\Actions\Abstracts\Action;
@@ -30,6 +30,6 @@ class DeletePermissionAction extends Action
 
     protected function onSuccess(Permission $permission)
     {
-        event(new PermissionCreatedEvent($permission));
+        event(new PermissionDeletedEvent($permission));
     }
 }

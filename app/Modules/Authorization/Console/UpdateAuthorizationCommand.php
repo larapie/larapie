@@ -183,6 +183,7 @@ class UpdateAuthorizationCommand extends Command
     protected function createRole(string $roleName): Role
     {
         $this->info('Role '.strtoupper($roleName).' does not exist. Creating role..');
+
         return Role::create(['name' => $roleName]);
     }
 
@@ -201,6 +202,7 @@ class UpdateAuthorizationCommand extends Command
     protected function createPermission(string $permissionName)
     {
         $this->info("Permission $permissionName does not exist. Creating Permission..");
+
         return Permission::create(['name' => $permissionName]);
     }
 

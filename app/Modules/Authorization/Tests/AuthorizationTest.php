@@ -112,7 +112,7 @@ class AuthorizationTest extends Test
         Config::set('authorization.roles', [
             'somenewrole' => [
                 'somepermission2',
-                'somepermission3'
+                'somepermission3',
             ],
         ]);
 

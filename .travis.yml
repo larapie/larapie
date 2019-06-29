@@ -43,6 +43,7 @@ install:
 
 before_script:
 - php artisan key:generate
+- php artisan db:reset --seed
 
 script:
 - if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.2" ]]; then vendor/bin/phpunit --coverage-clover=coverage.clover; else vendor/bin/phpunit; fi

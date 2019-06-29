@@ -7,9 +7,9 @@ use Lorisleiva\Actions\Action;
 
 trait ApiActionRunner
 {
-    protected function runActionFromApi(Action $action)
+    protected function callFromApi(Action $action)
     {
-        $request = tap(request(), function (Request $request) {
+        $request = tap(request(), function (Request &$request) {
             $request->headers->set('Accept', 'application/json');
         });
 

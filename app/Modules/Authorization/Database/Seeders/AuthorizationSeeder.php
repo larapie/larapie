@@ -14,6 +14,6 @@ class AuthorizationSeeder extends Seeder
      */
     public function run()
     {
-        Artisan::call('authorization:update', ['--delete' => true]);
+        Artisan::call('auth:sync', ['--delete' => true]);
     }
 }

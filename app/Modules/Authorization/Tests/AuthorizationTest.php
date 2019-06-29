@@ -99,7 +99,7 @@ class AuthorizationTest extends Test
                 'somepermission2',
             ],
         ]);
-        $this->artisan('authorization:update', ['--delete' => true]);
+        $this->artisan('auth:sync', ['--delete' => true]);
 
         $this->assertNotNull(\Spatie\Permission\Models\Role::findByName('somenewrole'));
         $this->assertNotNull(\Spatie\Permission\Models\Permission::findByName('somepermission'));
@@ -116,7 +116,7 @@ class AuthorizationTest extends Test
             ],
         ]);
 
-        $this->artisan('authorization:update', ['--delete' => true]);
+        $this->artisan('auth:sync', ['--delete' => true]);
 
         $this->assertFalse(Role::findByName('somenewrole')->hasPermissionTo('somepermission'));
         $this->assertTrue(Role::findByName('somenewrole')->hasPermissionTo('somepermission2'));
@@ -124,12 +124,12 @@ class AuthorizationTest extends Test
         Config::set('authorization.permissions', []);
 
         Config::set('authorization.roles', []);
-        $this->artisan('authorization:update');
+        $this->artisan('auth:sync');
 
         $this->assertNotNull($role = Role::findByName('somenewrole'));
         $this->assertEmpty($role->getAllPermissions());
 
-        $this->artisan('authorization:update', ['--delete' => true]);
+        $this->artisan('auth:sync', ['--delete' => true]);
 
         $this->expectException(PermissionDoesNotExist::class);
         Permission::findByName('somepermission');
@@ -140,7 +140,7 @@ class AuthorizationTest extends Test
         Config::set('authorization.roles', [
             'somenewrole' => 'somepermission',
         ]);
-        $this->artisan('authorization:update', ['--delete' => true]);
+        $this->artisan('auth:sync', ['--delete' => true]);
 
         $this->assertTrue(Role::findByName('somenewrole')->hasPermissionTo('somepermission'));
     }
@@ -207,7 +207,7 @@ class AuthorizationTest extends Test
         });
         $this->assertTrue($this->user()->hasPermissionTo(AuthorizationPermission::INDEX_ROLES));
 
-        $roles = $this->runActionFromApi(new GetRolesAction());
+        $roles = $this->callFromApi(new GetRolesAction());
 
         collect($roles)->each(function ($role) {
             $this->assertArrayHasKeys(['name', 'permissions'], $role);

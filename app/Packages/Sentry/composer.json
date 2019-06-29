@@ -1,0 +1,13 @@
+{
+    "name": "Sentry",
+    "require": {
+        "sentry/sentry-laravel": "^1.0"
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": [
+                "sentry/sentry-laravel"
+            ]
+        }
+    }
+}

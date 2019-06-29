@@ -5,7 +5,6 @@ namespace App\Foundation\Tests;
 use App\Packages\Actions\Traits\ApiActionRunner;
 use Larapie\Core\Base\Test;
 use Larapie\Core\Support\Facades\Larapie;
-use Route;
 
 class FoundationTest extends Test
 {
@@ -23,7 +22,7 @@ class FoundationTest extends Test
 
     public function testExceptionKernel()
     {
-        $response = $this->json('GET', Larapie::getApiUrl() . '/somenonexistingroutesgdqjmlgsdgj');
+        $response = $this->json('GET', Larapie::getApiUrl().'/somenonexistingroutesgdqjmlgsdgj');
         $response->assertStatus(404);
 
         $output = $response->decodeResponseJson();

@@ -55,7 +55,7 @@ class UpdateAuthorizationCommand extends Command
 
         $newPermissions
             ->filter(function ($permissionName) {
-                return !Permission::exists($permissionName);
+                return ! Permission::exists($permissionName);
             })
             ->each(function ($newPermissionName) {
                 $this->createPermission($newPermissionName);
@@ -80,10 +80,10 @@ class UpdateAuthorizationCommand extends Command
         //CREATE NEW ROLES
         $roles
             ->filter(function ($permissionNames) {
-                return !$this->permissionsHasWildcard($permissionNames);
+                return ! $this->permissionsHasWildcard($permissionNames);
             })
             ->filter(function ($permissionNames, $roleName) {
-                return !Role::exists($roleName);
+                return ! Role::exists($roleName);
             })
             ->each(function ($permissionNames, $roleName) {
                 $role = $this->createRole($roleName);
@@ -93,7 +93,7 @@ class UpdateAuthorizationCommand extends Command
         //SYNCHRONIZE EXISTING ROLES
         $roles
             ->filter(function ($permissionNames) {
-                return !$this->permissionsHasWildcard($permissionNames);
+                return ! $this->permissionsHasWildcard($permissionNames);
             })
             ->filter(function ($permissionNames, $roleName) {
                 return Role::exists($roleName);
@@ -115,10 +115,10 @@ class UpdateAuthorizationCommand extends Command
         collect($newPermissions)
             ->flatten()
             ->filter(function (string $permissionName) use ($role) {
-                return !$role->hasPermissionTo($permissionName);
+                return ! $role->hasPermissionTo($permissionName);
             })
             ->each(function (string $permissionName) use ($role) {
-                $this->info("Adding Permission: $permissionName to Role " . strtoupper($role->name) . '.');
+                $this->info("Adding Permission: $permissionName to Role ".strtoupper($role->name).'.');
                 $role->givePermissionTo($permissionName);
             });
 
@@ -126,7 +126,7 @@ class UpdateAuthorizationCommand extends Command
             ->pluck('name')
             ->diff(collect($newPermissions))
             ->each(function (string $permissionName) use ($role) {
-                $this->warn("Removing Permission $permissionName from Role " . strtoupper($role->name) . '.');
+                $this->warn("Removing Permission $permissionName from Role ".strtoupper($role->name).'.');
                 $role->revokePermissionTo($permissionName);
             });
     }
@@ -141,10 +141,10 @@ class UpdateAuthorizationCommand extends Command
                 ($permissionNames = Permission::all())
                     ->pluck('name')
                     ->filter(function ($permissionName) use ($role) {
-                        return !$role->hasPermissionTo($permissionName);
+                        return ! $role->hasPermissionTo($permissionName);
                     })
                     ->each(function ($permissionName) use ($role) {
-                        $this->info("Adding permission $permissionName to " . strtoupper($role->name) . '. Role has a wildcard');
+                        $this->info("Adding permission $permissionName to ".strtoupper($role->name).'. Role has a wildcard');
                     });
                 $role->syncPermissions($permissionNames);
             });
@@ -157,7 +157,7 @@ class UpdateAuthorizationCommand extends Command
                 collect(config('authorization.roles'))
                     ->flatten()
                     ->filter(function ($permissionName) {
-                        return !$this->permissionsHasWildcard($permissionName);
+                        return ! $this->permissionsHasWildcard($permissionName);
                     }))
             ->flatten()
             ->unique();
@@ -168,27 +168,27 @@ class UpdateAuthorizationCommand extends Command
         collect($permissions)
             ->flatten()
             ->filter(function ($permissionName) {
-                return !$this->permissionsHasWildcard($permissionName);
+                return ! $this->permissionsHasWildcard($permissionName);
             })
             ->filter(function ($permissionName) use ($role) {
-                return !$role->hasPermissionTo($permissionName);
+                return ! $role->hasPermissionTo($permissionName);
             })
             ->each(function (string $permissionName) use ($role) {
-                $this->info("Adding permission $permissionName to " . strtoupper($role->name) . '. Role is has a wildcard');
+                $this->info("Adding permission $permissionName to ".strtoupper($role->name).'. Role is has a wildcard');
                 $role->givePermissionTo($permissionName);
             });
     }
 
     protected function createRole(string $roleName): Role
     {
-        $this->info('Role ' . strtoupper($roleName) . ' does not exist. Creating role..');
+        $this->info('Role '.strtoupper($roleName).' does not exist. Creating role..');
 
         return Role::create(['name' => $roleName]);
     }
 
     protected function removeRole(string $roleName)
     {
-        $this->warn('Removing Role: ' . strtoupper($roleName) . ' does not exist anymore.');
+        $this->warn('Removing Role: '.strtoupper($roleName).' does not exist anymore.');
         Role::findByName($roleName)->delete();
     }
 
@@ -217,7 +217,7 @@ class UpdateAuthorizationCommand extends Command
         $permissions = $role->getAllPermissions();
 
         if ($permissions->isNotEmpty()) {
-            $this->warn('Removing permissions from ' . strtoupper($roleName) . ' it does not actively exist anymore.');
+            $this->warn('Removing permissions from '.strtoupper($roleName).' it does not actively exist anymore.');
         }
 
         $permissions->each(function ($permission) use ($role) {

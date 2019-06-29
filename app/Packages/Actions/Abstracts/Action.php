@@ -32,7 +32,7 @@ abstract class Action extends \Lorisleiva\Actions\Action
 
     protected function failHook(Throwable $exception)
     {
-        if (!method_exists($this, 'onFail')) {
+        if (! method_exists($this, 'onFail')) {
             throw $exception;
         }
         $this->resolveAndCall($this, 'onFail', compact('exception'));
@@ -47,7 +47,6 @@ abstract class Action extends \Lorisleiva\Actions\Action
                 $parameters = (new \ReflectionMethod($this, 'onSuccess'))->getParameters();
                 $extraParameter = $this->resolveParameter($parameters, $result);
             } catch (\ReflectionException $e) {
-
             }
             $this->resolveAndCall($this, 'onSuccess', $extraParameter ?? []);
         }
@@ -67,27 +66,31 @@ abstract class Action extends \Lorisleiva\Actions\Action
             })
             ->each(function (\ReflectionParameter $parameter) use ($result, &$extraParameter) {
                 $extraParameter = [$parameter->getName() => $result];
+
                 return false;
             });
 
-        if (isset($extraParameter))
+        if (isset($extraParameter)) {
             return $extraParameter;
+        }
 
         //BIND the value to the parameter with the same name
         //IF there's not a parameter with the same name as the value type
         //CHOOSE the first value that doesn't have a type
         collect($parameters)
             ->filter(function (\ReflectionParameter $parameter) {
-                return !$parameter->hasType();
+                return ! $parameter->hasType();
             })
             ->each(function (\ReflectionParameter $parameter) use ($result, &$extraParameter) {
                 if ($extraParameter === null) {
                     $extraParameter = [$parameter->getName() => $result];
                 } elseif (strcasecmp(get_short_class_name($result), $parameter->getName()) == 0) {
                     $extraParameter = [$parameter->getName() => $result];
+
                     return false;
                 }
             });
+
         return $extraParameter;
     }
 

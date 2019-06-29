@@ -19,7 +19,7 @@ class HttpKernel extends Kernel
         \App\Foundation\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Foundation\Http\Middleware\TrustProxies::class,
-        \App\Foundation\Http\Middleware\InjectApplicationJsonHeader::class
+        \App\Foundation\Http\Middleware\InjectApplicationJsonHeader::class,
     ];
 
     /**

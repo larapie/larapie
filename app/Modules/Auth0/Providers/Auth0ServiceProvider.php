@@ -19,7 +19,7 @@ class Auth0ServiceProvider extends ServiceProvider
         $this->app->register(\Auth0\Login\LoginServiceProvider::class);
 
         $this->app->bind(CacheHandler::class, function () {
-                return new LaravelCacheWrapper(Cache::store());
-            });
+            return new LaravelCacheWrapper(Cache::store());
+        });
     }
 }

@@ -53,7 +53,7 @@ class Auth0Test extends Test
     public function testAuthorizedRoute()
     {
         $response = $this->http('GET', '/v1/auth0/authorized', [], [
-            'Authorization' => 'Bearer ' . $this->generateToken(['email' => 'test@test.com']),
+            'Authorization' => 'Bearer '.$this->generateToken(['email' => 'test@test.com']),
         ]);
 
         $this->assertNotNull(User::where('email', 'test@test.com')->first());
@@ -64,7 +64,7 @@ class Auth0Test extends Test
     public function testInvalidToken()
     {
         $response = $this->http('GET', '/v1/auth0/authorized', [], [
-            'Authorization' => 'Bearer ' . 'qsdgqgsd',
+            'Authorization' => 'Bearer '.'qsdgqgsd',
         ]);
         $response->assertStatus(401);
     }
@@ -73,7 +73,7 @@ class Auth0Test extends Test
     {
         $token = $this->generateToken(['name' => 'somename']);
         $decoded = JWT::decode($token, $this->getTokenPublicKey(), ['RS256']);
-        $this->assertArrayHasKey('name', (array)$decoded);
+        $this->assertArrayHasKey('name', (array) $decoded);
         $this->assertEquals('somename', $decoded->name);
     }
 
@@ -90,7 +90,7 @@ class Auth0Test extends Test
     public function testUnverifiedEmailThroughHttp()
     {
         $response = $this->http('GET', '/v1/auth0/authorized', [], [
-            'Authorization' => 'Bearer ' . $this->generateToken(['email_verified' => false]),
+            'Authorization' => 'Bearer '.$this->generateToken(['email_verified' => false]),
         ]);
         $response->assertStatus(401);
     }

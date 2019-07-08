@@ -35,6 +35,6 @@ return [
         'service' => \Larapie\Generator\Commands\ServiceMakeCommand::class,
         'service_contract' => \Larapie\Generator\Commands\ServiceContractMakeCommand::class,
         'test' => \Larapie\Generator\Commands\TestMakeCommand::class,
-        'transformer' => \Larapie\Generator\Commands\TransformerMakeCommand::class
-    ]
+        'transformer' => \Larapie\Generator\Commands\TransformerMakeCommand::class,
+    ],
 ];

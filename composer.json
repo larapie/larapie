@@ -1,12 +1,23 @@
 {
-    "name": "larapie/framework",
-    "type": "project",
+    "name": "larapie/larapie",
     "description": "The Larapie Framework.",
     "keywords": [
         "framework",
+        "larapie",
         "laravel"
     ],
+    "support": {
+        "issues": "https://github.com/larapie/larapie/issues",
+        "source": "https://github.com/larapie/larapie"
+   },
+    "authors": [
+    {
+      "name": "Anthony Vancauwenberghe",
+      "email": "aamining2@gmail.com"
+    }
+    ],
     "license": "MIT",
+    "type": "project",
     "require": {
         "php": "^7.2",
         "ext-json": "*",

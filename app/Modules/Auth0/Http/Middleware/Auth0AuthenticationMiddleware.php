@@ -2,7 +2,7 @@
 
 namespace App\Modules\Auth0\Middleware;
 
-use App\Modules\Auth0\Actions\CreateOrUpdateUserFromTokenAction;
+use App\Modules\Auth0\Actions\UpsertUserFromTokenAction;
 use App\Modules\Auth0\Exceptions\EmailNotVerifiedException;
 use Auth0\SDK\Exception\CoreException;
 use Auth0\SDK\Exception\InvalidTokenException;
@@ -22,7 +22,7 @@ class Auth0AuthenticationMiddleware
     public function handle(Request $request, Closure $next)
     {
         try {
-            $user = (new CreateOrUpdateUserFromTokenAction([
+            $user = (new UpsertUserFromTokenAction([
                 'token' => $request->bearerToken(),
             ]))->run();
 

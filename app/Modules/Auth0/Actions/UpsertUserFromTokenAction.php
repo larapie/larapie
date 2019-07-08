@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Larapie\Actions\Action;
 
-class CreateOrUpdateUserFromTokenAction extends Action
+class UpsertUserFromTokenAction extends Action
 {
     public function rules()
     {

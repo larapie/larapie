@@ -2,7 +2,7 @@
 
 namespace App\Modules\Auth0\Tests;
 
-use App\Modules\Auth0\Actions\CreateOrUpdateUserFromTokenAction;
+use App\Modules\Auth0\Actions\UpsertUserFromTokenAction;
 use App\Modules\Auth0\Exceptions\EmailNotVerifiedException;
 use App\Modules\Auth0\Traits\FakeAuth0Token;
 use App\Modules\User\Events\UserRegisteredEvent;
@@ -19,7 +19,7 @@ class Auth0Test extends Test
 
     public function testCreateUserFromToken()
     {
-        $action = new CreateOrUpdateUserFromTokenAction([
+        $action = new UpsertUserFromTokenAction([
             'token' => $this->generateToken(),
         ]);
 
@@ -32,18 +32,18 @@ class Auth0Test extends Test
     public function testCreateUserFromInvalidToken()
     {
         $this->expectException(ValidationException::class);
-        (new CreateOrUpdateUserFromTokenAction([
+        (new UpsertUserFromTokenAction([
             'token' => null,
         ]))->run();
     }
 
     public function testUserNameGetsUpdated()
     {
-        $user = (new CreateOrUpdateUserFromTokenAction([
+        $user = (new UpsertUserFromTokenAction([
             'token' => $this->generateToken(),
         ]))->run();
 
-        (new CreateOrUpdateUserFromTokenAction([
+        (new UpsertUserFromTokenAction([
             'token' => $this->generateToken(['name' => 'newname']),
         ]))->run();
 
@@ -79,7 +79,7 @@ class Auth0Test extends Test
 
     public function testEmailNotVerifiedThrowsError()
     {
-        $action = new CreateOrUpdateUserFromTokenAction([
+        $action = new UpsertUserFromTokenAction([
             'token' => $this->generateToken(['email_verified' => false]),
         ]);
 

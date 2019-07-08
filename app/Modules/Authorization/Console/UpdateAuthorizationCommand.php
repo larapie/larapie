@@ -136,7 +136,8 @@ class UpdateAuthorizationCommand extends Command
         collect(config('authorization.roles'))
             ->filter(function ($permissionNames) {
                 return $this->permissionsHasWildcard($permissionNames);
-            })->each(function ($wildcard, $roleName) {
+            })
+            ->each(function ($wildcard, $roleName) {
                 $role = Role::exists($roleName) ? Role::findByName($roleName) : $this->createRole($roleName);
                 ($permissionNames = Permission::all())
                     ->pluck('name')

@@ -34,7 +34,7 @@ It is heavily inspired on apiato wich is unfortunately abondoned and not up to d
 Why!? Because setting up a solid API from scratch is time consuming (and of course, time is money!). Larapie gives you the core features of robust API's fully documented, for free; so you can focus on writing your business logic, thus deliver faster to your clients.
 
 ### Requirements
-- Php > 7.1
+- Php >= 7.2
 - PHP Extensions: OpenSSL, PDO, Mbstring, Tokenizer
 - Composer
 - Webserver (nginx, apache, lightspeed, ..)

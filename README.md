@@ -29,7 +29,7 @@ This repository is currently in alpha. Heavy development is going on and things 
 ### What is Larapie
 Larapie is a framework for easily building scalable and testable api's with laravel & PHP.
 
-It is heavily inspired on apiato wich is unfortunately abondoned and not up to date anymore at the moment. We will reuse a lot of documentation from apiato throughout this project to speed up the writing. Larapie aims to be more intuitive, performant and maintainable than apiato. It is designed to help you build scalable API's faster, by providing tools and functionalities that facilitates the development of any API-Centric App.
+It is heavily inspired on apiato wich is unfortunately abandoned and not up to date anymore at the moment. We will reuse a lot of documentation from apiato throughout this project to speed up the writing. Larapie aims to be more intuitive, performant and maintainable than apiato. It is designed to help you build scalable API's faster, by providing tools and functionalities that facilitates the development of any API-Centric App.
 
 Why!? Because setting up a solid API from scratch is time consuming (and of course, time is money!). Larapie gives you the core features of robust API's fully documented, for free; so you can focus on writing your business logic, thus deliver faster to your clients.
 
